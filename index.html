@@ -1,0 +1,1904 @@
+<!doctype html>
+<html lang="my">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>Dhamma Quote Card Maker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;700&family=Noto+Serif+Myanmar:wght@400;600;700;900&family=Padauk:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ---- built-in fonts (embedded, no upload / no network needed) ---- */
+      @font-face { font-family: "TharLon"; src: url(fonts/TharLon.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "YoeYar-One"; src: url(fonts/YoeYarOneBold.woff2) format("woff2"); format("woff2");
+        font-weight: 700;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Head One"; src: url(fonts/MyanmarThuriya.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Taungyi"; src: url(fonts/MyanmarTaungyi.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Khway"; src: url(fonts/MyanmarKhway.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Kuttar"; src: url(fonts/MyanmarKuttar.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Black"; src: url(fonts/MyanmarBlack.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Nayone"; src: url(fonts/MyanmarNayone.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      @font-face { font-family: "Myanmar Angoun"; src: url(fonts/MyanmarAngoun.woff2) format("woff2"); format("woff2");
+        font-weight: 400;
+        font-display: swap;
+       }
+      :root {
+        color-scheme: dark;
+        --bg: #0e0f12;
+        --panel: #17181d;
+        --panel-2: #1f2026;
+        --line: #2c2e36;
+        --ink: #f0ead8;
+        --ink-dim: #b9b4a4;
+        --ink-faint: #8b877a;
+        --gold: #e3b93e;
+        --gold-deep: #b98a1d;
+        --gold-soft: rgba(227, 185, 62, 0.14);
+        --danger: #e0655f;
+        --radius: 10px;
+      }
+      html, body { height: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Noto Sans Myanmar", "Padauk", sans-serif;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      h1, h2, h3, p { margin: 0; }
+      button, input, select, textarea { font: inherit; color: inherit; }
+
+      .app {
+        display: grid;
+        grid-template-columns: 378px minmax(0, 1fr);
+        min-height: 100dvh;
+      }
+
+      /* ---------- control panel ---------- */
+      .panel {
+        background: var(--panel);
+        border-right: 1px solid var(--line);
+        padding: 18px 18px 28px;
+        overflow-y: auto;
+        max-height: 100dvh;
+      }
+      .panel-head { margin-bottom: 14px; }
+      .panel-head h1 {
+        font-family: "Noto Serif Myanmar", serif;
+        font-size: 21px;
+        font-weight: 700;
+        color: var(--gold);
+        line-height: 1.35;
+      }
+      .panel-head p { color: var(--ink-dim); font-size: 13px; margin-top: 3px; }
+
+      .export-row { display: flex; gap: 8px; margin: 14px 0 4px; }
+      .btn {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--panel-2);
+        border-radius: var(--radius);
+        padding: 9px 13px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      .btn:hover { border-color: var(--gold-deep); }
+      .btn.primary {
+        background: var(--gold);
+        border-color: var(--gold);
+        color: #241a02;
+        font-weight: 700;
+        flex: 1;
+      }
+      .btn.primary:hover { background: #f0c94f; }
+      .btn.gold-ghost { color: var(--gold); border-color: var(--gold-deep); flex: 1; }
+      .btn.small { padding: 6px 10px; font-size: 13px; }
+      .btn.danger { color: var(--danger); }
+      .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+      .btn.wide { width: 100%; }
+
+      section.block {
+        border-top: 1px solid var(--line);
+        padding: 16px 0 6px;
+        margin-top: 16px;
+      }
+      section.block h2 {
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--ink);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      section.block h2 .num {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px; height: 22px;
+        border-radius: 50%;
+        background: var(--gold-soft);
+        color: var(--gold);
+        font-size: 12px;
+        flex: none;
+      }
+      .field { margin-bottom: 12px; }
+      .field label, .field .lab {
+        display: block;
+        font-size: 13px;
+        color: var(--ink-dim);
+        margin-bottom: 5px;
+      }
+      .field .val { color: var(--gold); font-weight: 700; }
+      textarea, select, input[type="text"] {
+        width: 100%;
+        background: #101116;
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 9px 11px;
+        outline: none;
+      }
+      textarea:focus, select:focus, input[type="text"]:focus { border-color: var(--gold-deep); }
+      textarea { resize: vertical; min-height: 108px; line-height: 1.7; }
+      select { appearance: none; padding-right: 30px;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23b9b4a4' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+        background-repeat: no-repeat; background-position: right 11px center; }
+      input[type="range"] { width: 100%; accent-color: var(--gold); height: 26px; }
+      input[type="color"] {
+        width: 100%; height: 38px; padding: 3px;
+        background: #101116; border: 1px solid var(--line); border-radius: var(--radius);
+        cursor: pointer;
+      }
+      .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+      .row2 .field { margin-bottom: 12px; }
+
+      .file-btn {
+        display: block; text-align: center;
+        border: 1px dashed var(--gold-deep);
+        background: var(--gold-soft);
+        color: var(--gold);
+        border-radius: var(--radius);
+        padding: 10px; cursor: pointer; font-weight: 500;
+      }
+      .file-btn:hover { border-color: var(--gold); }
+      .file-btn input { display: none; }
+      .file-name { font-size: 12px; color: var(--ink-faint); margin-top: 5px; word-break: break-all; }
+
+      .seg { display: flex; gap: 6px; }
+      .seg button {
+        flex: 1; padding: 7px 4px; font-size: 13px;
+        background: #101116; border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+      }
+      .seg button[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+      .tgl-row { display: flex; gap: 6px; flex-wrap: wrap; }
+      .tgl {
+        padding: 7px 12px; font-size: 13px;
+        background: #101116; border: 1px solid var(--line); border-radius: 999px; cursor: pointer;
+      }
+      .tgl[aria-pressed="true"] { border-color: var(--gold); color: var(--gold); background: var(--gold-soft); }
+      .corners { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .corners button {
+        padding: 7px 2px; font-size: 12px;
+        background: #101116; border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+      }
+      .corners button:hover { border-color: var(--gold-deep); color: var(--gold); }
+
+      .status {
+        font-size: 13px; color: var(--ink-dim);
+        background: #101116; border: 1px solid var(--line);
+        border-radius: var(--radius); padding: 8px 11px; margin-top: 10px;
+        display: none;
+      }
+      .status.show { display: block; }
+      .status.ok { color: #9ed48a; border-color: #37512c; }
+      .status.warn { color: #e8c56a; border-color: #5c4a1e; }
+      .note { font-size: 12.5px; color: var(--ink-faint); margin-top: 6px; }
+      .inline-btns { display: flex; gap: 8px; margin-top: 8px; }
+      .inline-btns .btn { flex: 1; }
+
+      /* ---------- stage ---------- */
+      .stage {
+        padding: 22px 22px 30px;
+        display: flex; flex-direction: column; align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+      .canvas-wrap {
+        width: min(700px, 100%, calc((100dvh - 150px) * var(--ar, 1)));
+        margin-top: 4px;
+      }
+      canvas#card {
+        display: block; width: 100%; height: auto;
+        border-radius: 6px;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 0 1px #2c2e36;
+        cursor: grab;
+        touch-action: none;
+        background: #1a1208;
+      }
+      canvas#card:active { cursor: grabbing; }
+      .stage-hint { color: var(--ink-faint); font-size: 13px; text-align: center; max-width: 640px; }
+      .stage-hint b { color: var(--ink-dim); font-weight: 500; }
+
+      /* ---------- templates & library ---------- */
+      .tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+      .tpl-grid button {
+        text-align: left; padding: 9px 11px;
+        background: #101116; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+      }
+      .tpl-grid button:hover { border-color: var(--gold-deep); }
+      .tpl-grid button b { display: block; font-size: 13.5px; font-weight: 700; color: var(--ink); }
+      .tpl-grid button span { display: block; font-size: 11.5px; color: var(--ink-faint); margin-top: 1px; }
+      .saved-row { display: flex; gap: 6px; margin-top: 6px; }
+      .saved-row .apply {
+        flex: 1; text-align: left; padding: 8px 11px; font-size: 13.5px;
+        background: #101116; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+      }
+      .saved-row .apply:hover { border-color: var(--gold-deep); color: var(--gold); }
+      .saved-row .del {
+        padding: 8px 11px; font-size: 13px;
+        background: #101116; border: 1px solid var(--line); border-radius: var(--radius); cursor: pointer;
+        color: var(--danger);
+      }
+      .lib-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .lib-item {
+        position: relative; background: #101116; border: 1px solid var(--line);
+        border-radius: var(--radius); padding: 6px 6px 7px; cursor: pointer; text-align: center;
+      }
+      .lib-item:hover { border-color: var(--gold-deep); }
+      .lib-item img { width: 100%; height: 66px; object-fit: contain; display: block; }
+      .lib-item.lib-logo img { border-radius: 50%; }
+      .lib-item .lab { font-size: 11.5px; color: var(--ink-dim); display: block; margin-top: 4px; line-height: 1.35; }
+      .lib-item .del {
+        position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; line-height: 1;
+        border-radius: 50%; border: 1px solid var(--line); background: rgba(14, 15, 18, 0.9);
+        color: var(--danger); cursor: pointer; font-size: 13px; padding: 0;
+      }
+      .sub-h { font-size: 13px; font-weight: 700; color: var(--ink-dim); margin: 14px 0 8px; }
+      textarea.batch-area { min-height: 170px; }
+      .chk-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; font-size: 13.5px; color: var(--ink-dim); }
+      .chk-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--gold); }
+
+      @media (max-width: 860px) {
+        .app { grid-template-columns: 1fr; }
+        .stage { order: -1; padding: 14px 12px 6px; }
+        .canvas-wrap { width: min(100%, calc((100dvh - 190px) * var(--ar, 1))); }
+        .panel { max-height: none; overflow: visible; border-right: none; border-top: 1px solid var(--line); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <!-- ================= CONTROLS ================= -->
+      <aside class="panel">
+        <div class="panel-head">
+          <h1>တရားစာသား ကတ်ဖန်တီးရန်</h1>
+          <p>စာသား၊ ဆရာတော်ပုံနှင့် လိုဂိုတို့ကို ကတ်ပေါ်တွင် တိုက်ရိုက် ဆွဲရွှေ့၍ နေရာချနိုင်ပါသည်။</p>
+        </div>
+
+        <div class="field">
+          <label for="sizeSel">ကတ်အရွယ်အစား</label>
+          <select id="sizeSel">
+            <option value="1:1" selected>1:1 စတုရန်း (1080 × 1080)</option>
+            <option value="4:5">4:5 (1080 × 1350)</option>
+            <option value="9:16">9:16 Shorts / Story (1080 × 1920)</option>
+            <option value="16:9">16:9 (1920 × 1080)</option>
+          </select>
+        </div>
+        <div class="export-row">
+          <button class="btn primary" id="dlPng" type="button">PNG ဒေါင်းလုဒ်</button>
+          <button class="btn gold-ghost" id="dlJpg" type="button">JPG ဒေါင်းလုဒ်</button>
+        </div>
+        <div class="export-row" style="margin-top: 2px;">
+          <button class="btn" id="exportAllSizes" type="button" style="flex: 1;">အရွယ်စုံ ထုတ်ရန် — 1:1 · 4:5 · 9:16 · 16:9 (ZIP)</button>
+        </div>
+        <div class="status" id="exportStatus"></div>
+
+        <!-- Templates -->
+        <section class="block">
+          <h2>ပုံစံများ (Templates)</h2>
+          <div class="tpl-grid" id="presetGrid">
+            <button type="button" data-preset="maroonClassic"><b>Maroon Classic</b><span>နီညို · ရွှေဘောင် · ပုံ ညာဘက်</span></button>
+            <button type="button" data-preset="purpleGlow"><b>Purple Glow</b><span>ခရမ်း · ပုံ ဘယ်ဘက်</span></button>
+            <button type="button" data-preset="sunsetCircle"><b>Sunset Circle</b><span>နေဝင် စက်ဝိုင်း · ဘောင်မပါ</span></button>
+            <button type="button" data-preset="darkHalo"><b>Dark Halo</b><span>အမှောင် · ရွှေအလင်းဝိုင်း · ပုံ အလယ်အပေါ်</span></button>
+          </div>
+          <p class="note">ပုံစံ တစ်ခုနှိပ်လိုက်လျှင် နောက်ခံ၊ အရောင်၊ ဘောင်၊ ပုံနေရာ စသည့် ဒီဇိုင်းအားလုံး တန်းပြောင်းသွားပါမည်။ (စာသားနှင့် ပုံ မပြောင်းပါ။)</p>
+          <div class="field" style="margin-top: 12px;">
+            <label for="tplName">လက်ရှိ ဒီဇိုင်းကို ကိုယ်ပိုင် ပုံစံအဖြစ် သိမ်းရန်</label>
+            <div style="display: flex; gap: 8px;">
+              <input type="text" id="tplName" placeholder="ပုံစံအမည် ရေးပါ" style="flex: 1;" />
+              <button class="btn small" id="tplSave" type="button">သိမ်းရန်</button>
+            </div>
+          </div>
+          <div id="savedTpls"></div>
+          <div class="status" id="tplStatus"></div>
+        </section>
+
+        <!-- Built-in + personal library -->
+        <section class="block">
+          <h2>ပုံ စာကြည့်တိုက် (Library)</h2>
+          <p class="note" style="margin: 0 0 10px;">အောက်ပါ ပုံများမှာ နောက်ခံ ဖယ်ပြီးသား ဖြစ်ပါသည် — နှိပ်လိုက်ရုံဖြင့် ကတ်ပေါ်တွင် တန်းသုံးနိုင်ပါသည်။</p>
+          <div class="lib-grid">
+            <button class="lib-item" type="button" data-lib-photo="assets/pachote-front.png" data-lib-name="ပါချုပ်ဆရာတော်">
+              <img src="assets/pachote-front.png" alt="ပါချုပ်ဆရာတော်" />
+              <span class="lab">ပါချုပ်ဆရာတော်</span>
+            </button>
+            <button class="lib-item" type="button" data-lib-photo="assets/pachote-sayadaw.png" data-lib-name="ပါချုပ်ဆရာတော် (လက်အုပ်ချီ)">
+              <img src="assets/pachote-sayadaw.png" alt="ပါချုပ်ဆရာတော် (လက်အုပ်ချီ)" />
+              <span class="lab">ပါချုပ်ဆရာတော် (လက်အုပ်ချီ)</span>
+            </button>
+            <button class="lib-item" type="button" data-lib-photo="assets/thitsar-shwesi-sayadaw.png" data-lib-name="သစ္စာရွှေစည်ဆရာတော်">
+              <img src="assets/thitsar-shwesi-sayadaw.png" alt="သစ္စာရွှေစည်ဆရာတော်" />
+              <span class="lab">သစ္စာရွှေစည်ဆရာတော်</span>
+            </button>
+          </div>
+          <div class="sub-h">Logo</div>
+          <p class="note" style="margin: 0 0 10px;">နှိပ်လိုက်လျှင် ကတ်ပေါ်တွင် Logo အဖြစ် တန်းသုံးနိုင်ပါသည် — အရွယ်နှင့် နေရာ ကို Logo အပိုင်းတွင် ပြန်ချိန်နိုင်ပါသည်။</p>
+          <div class="lib-grid">
+            <button class="lib-item lib-logo" type="button" data-lib-logo="assets/dhamma-logo.png" data-lib-name="ဓမ္မဒါန Logo">
+              <img src="assets/dhamma-logo.png" alt="ဓမ္မဒါန Logo" />
+              <span class="lab">ဓမ္မဒါန Logo</span>
+            </button>
+          </div>
+          <div class="sub-h">ကိုယ်ပိုင် စာကြည့်တိုက် (My Library)</div>
+          <div class="lib-grid" id="myLib"></div>
+          <p class="note" id="myLibEmpty">သိမ်းထားသော ပုံ မရှိသေးပါ။ ပုံ သို့မဟုတ် လိုဂို တင်ပြီးလျှင် အောက်ပါ ခလုတ်များဖြင့် သိမ်းထားနိုင်ပါသည် — နောက်တစ်ခါ ဖွင့်လျှင်လည်း ပြန်သုံးနိုင်ပါမည်။</p>
+          <div class="inline-btns">
+            <button class="btn small" id="savePhotoLib" type="button" disabled>လက်ရှိပုံကို သိမ်းရန်</button>
+            <button class="btn small" id="saveLogoLib" type="button" disabled>လက်ရှိ Logo သိမ်းရန်</button>
+          </div>
+          <div class="status" id="libStatus"></div>
+        </section>
+
+        <!-- 1. Quote -->
+        <section class="block">
+          <h2><span class="num">၁</span> အဓိက တရားစာသား</h2>
+          <div class="field">
+            <label for="quoteText">စာသား (စာကြောင်းခွဲရန် Enter နှိပ်ပါ)</label>
+            <textarea id="quoteText">လွဲချော်သွားတိုင်းလည်း
+တံဆိပ်လို မဖြုတ်ဘူး။
+တစ်ခါတစ်လေ
+ကောင်းတာတွေ ဖြစ်လာဖို့
+ဆိုးတာတွေနဲ့
+လွဲပေးလိုက်ရတာတွေ ရှိတယ်။</textarea>
+            <p class="note">ရွှေရောင် ခြယ်လိုသော စကားလုံးကို *မေတ္တာ* ကဲ့သို့ ကြယ်သတ်ပုံ (*...*) နှစ်ဖက်ခြုံ၍ ရေးပါ — ဥပမာ «*သတိ* နှင့် နေထိုင်ပါ» ဟု ရေးလျှင် «သတိ» သာ ရွှေရောင် ဖြစ်ပါမည်။ ကြယ်သတ်ပုံများ ကတ်ပေါ်တွင် မပေါ်ပါ။</p>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="fontSel">ဖောင့်</label>
+              <select id="fontSel">
+                <optgroup label="ထည့်သွင်းထားသော Font များ">
+                  <option value="TharLon">TharLon</option>
+                  <option value="YoeYar-One">YoeYar-One (Bold)</option>
+                  <option value="Myanmar Head One">Myanmar Thuriya (Head One)</option>
+                  <option value="Myanmar Taungyi">Myanmar Taungyi</option>
+                  <option value="Myanmar Khway">Myanmar Khway</option>
+                  <option value="Myanmar Kuttar">Myanmar Kuttar</option>
+                  <option value="Myanmar Black">Myanmar Black</option>
+                  <option value="Myanmar Nayone">Myanmar Nayone</option>
+                  <option value="Myanmar Angoun">Myanmar Angoun</option>
+                </optgroup>
+                <optgroup label="Google Fonts">
+                  <option value="Noto Serif Myanmar" selected>Noto Serif Myanmar</option>
+                  <option value="Noto Sans Myanmar">Noto Sans Myanmar</option>
+                  <option value="Padauk">Padauk</option>
+                </optgroup>
+              </select>
+            </div>
+            <div class="field">
+              <span class="lab">ကိုယ်ပိုင်ဖောင့် တင်ရန်</span>
+              <label class="file-btn">ဖောင့်ဖိုင် ရွေးရန်
+                <input type="file" id="fontFile" accept=".ttf,.otf,.woff,.woff2" />
+              </label>
+            </div>
+          </div>
+          <div class="field">
+            <label for="fontSize">စာလုံးအရွယ် — <span class="val" id="fontSizeVal">64</span></label>
+            <input type="range" id="fontSize" min="28" max="130" value="64" />
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="colorMain">စာသားအရောင်</label>
+              <input type="color" id="colorMain" value="#ffffff" />
+            </div>
+            <div class="field">
+              <label for="colorAccent">ပထမစာကြောင်း အရောင်</label>
+              <input type="color" id="colorAccent" value="#ffd94d" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="accentLines">အရောင်ခြား စာကြောင်းရေ — <span class="val" id="accentLinesVal">2</span></label>
+            <input type="range" id="accentLines" min="0" max="6" value="2" />
+          </div>
+          <div class="field">
+            <span class="lab">စာသား ပုံစံ</span>
+            <div class="tgl-row">
+              <button class="tgl" id="boldBtn" type="button" aria-pressed="true">စာလုံးထူ (Bold)</button>
+              <button class="tgl" id="strokeBtn" type="button" aria-pressed="true">အနားသတ် (Outline)</button>
+              <button class="tgl" id="shadowBtn" type="button" aria-pressed="true">အရိပ် (Shadow)</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="lab">အလိုအလျောက် အရွယ်ညှိမှု (Auto-fit)</span>
+            <div class="tgl-row">
+              <button class="tgl" id="autoFitBtn" type="button" aria-pressed="true">Auto-fit ဖွင့်ထားရန်</button>
+            </div>
+            <p class="note">ဖွင့်ထားလျှင် စာသား ရှည်လွန်း၍ ကတ်အပြင် ထွက်သွားမည့်အခါ စာလုံးအရွယ်ကို အလိုအလျောက် လျှော့ညှိပေးပါမည်။ (ရွေးထားသော အရွယ်ထက် ကြီးအောင် မလုပ်ပါ။)</p>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="strokeColor">အနားသတ် အရောင်</label>
+              <input type="color" id="strokeColor" value="#2a0e02" />
+            </div>
+            <div class="field">
+              <span class="lab">စာသားချိန်ညှိမှု</span>
+              <div class="seg" id="alignSeg">
+                <button type="button" data-align="left" aria-pressed="true">ဘယ်</button>
+                <button type="button" data-align="center" aria-pressed="false">အလယ်</button>
+                <button type="button" data-align="right" aria-pressed="false">ညာ</button>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label for="lineSpace">စာကြောင်းအကွာအဝေး — <span class="val" id="lineSpaceVal">1.50</span></label>
+            <input type="range" id="lineSpace" min="1.1" max="2.2" step="0.05" value="1.5" />
+          </div>
+        </section>
+
+        <!-- 2. Background -->
+        <section class="block">
+          <h2><span class="num">၂</span> နောက်ခံ</h2>
+          <div class="field">
+            <label for="bgSel">နောက်ခံပုံစံ</label>
+            <select id="bgSel">
+              <option value="maroon" selected>နီညိုရောင် (Maroon-Brown)</option>
+              <option value="purple">ခရမ်း-ပန်းရောင် (Purple-Magenta)</option>
+              <option value="sunset">နေဝင်ချိန် စက်ဝိုင်း (Sunset Circle)</option>
+              <option value="charcoal">အမှောင် + ရွှေအလင်းဝိုင်း (Charcoal Halo)</option>
+              <option value="temple">ရွှေဘုရား အလင်းတန်း (Golden Temple)</option>
+              <option value="plain">ရိုးရိုး အမှောင် (Plain Dark)</option>
+              <option value="custom">ကိုယ်ပိုင် အရောင် (Custom Gradient)</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="grad1">ကိုယ်ပိုင်အရောင် ၁ (အပေါ်)</label>
+              <input type="color" id="grad1" value="#5a1f16" />
+            </div>
+            <div class="field">
+              <label for="grad2">ကိုယ်ပိုင်အရောင် ၂ (အောက်)</label>
+              <input type="color" id="grad2" value="#1d0803" />
+            </div>
+          </div>
+          <div class="field">
+            <span class="lab">အလှဆင် ဘောင်</span>
+            <div class="tgl-row">
+              <button class="tgl" id="frameBtn" type="button" aria-pressed="true">ရွှေဘောင် ထည့်ရန်</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="lab">နောက်ခံပုံ ကိုယ်တိုင်တင်ရန် (ရှိလျှင် gradient အစား သုံးမည်)</span>
+            <label class="file-btn">နောက်ခံပုံ ရွေးရန်
+              <input type="file" id="bgImgFile" accept="image/*" />
+            </label>
+            <div class="file-name" id="bgImgName"></div>
+            <div class="inline-btns">
+              <button class="btn small danger" id="bgImgClear" type="button" disabled>နောက်ခံပုံ ဖျက်ရန်</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Sayadaw name -->
+        <section class="block">
+          <h2><span class="num">၃</span> ဆရာတော်အမည်</h2>
+          <div class="field">
+            <label for="nameText">အမည် စာသား</label>
+            <input type="text" id="nameText" value="ပါမောက္ခချုပ်ဆရာတော်ဘုရားကြီး" />
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="namePosSel">နေရာ</label>
+              <select id="namePosSel">
+                <option value="bottom-left">အောက်ခြေ — ဘယ်</option>
+                <option value="bottom-center" selected>အောက်ခြေ — အလယ်</option>
+                <option value="bottom-right">အောက်ခြေ — ညာ</option>
+                <option value="top-left">အပေါ် — ဘယ်</option>
+                <option value="top-center">အပေါ် — အလယ်</option>
+                <option value="top-right">အပေါ် — ညာ</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="nameFontSel">ဖောင့်</label>
+              <select id="nameFontSel">
+                <optgroup label="ထည့်သွင်းထားသော Font များ">
+                  <option value="TharLon">TharLon</option>
+                  <option value="YoeYar-One">YoeYar-One (Bold)</option>
+                  <option value="Myanmar Head One">Myanmar Thuriya (Head One)</option>
+                  <option value="Myanmar Taungyi">Myanmar Taungyi</option>
+                  <option value="Myanmar Khway">Myanmar Khway</option>
+                  <option value="Myanmar Kuttar">Myanmar Kuttar</option>
+                  <option value="Myanmar Black">Myanmar Black</option>
+                  <option value="Myanmar Nayone">Myanmar Nayone</option>
+                  <option value="Myanmar Angoun">Myanmar Angoun</option>
+                </optgroup>
+                <optgroup label="Google Fonts">
+                  <option value="Noto Serif Myanmar">Noto Serif Myanmar</option>
+                  <option value="Noto Sans Myanmar">Noto Sans Myanmar</option>
+                  <option value="Padauk" selected>Padauk</option>
+                </optgroup>
+              </select>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="nameColor">အမည်အရောင်</label>
+              <input type="color" id="nameColor" value="#ffe9a8" />
+            </div>
+            <div class="field">
+              <label for="nameSize">အရွယ် — <span class="val" id="nameSizeVal">36</span></label>
+              <input type="range" id="nameSize" min="18" max="80" value="36" />
+            </div>
+          </div>
+          <p class="note">အမည်ကိုလည်း ကတ်ပေါ်တွင် တိုက်ရိုက် ဆွဲရွှေ့နိုင်ပါသည်။</p>
+        </section>
+
+        <!-- 4. Sayadaw photo -->
+        <section class="block">
+          <h2><span class="num">၄</span> ဆရာတော်ပုံ</h2>
+          <div class="field">
+            <label class="file-btn">ဆရာတော်ပုံ တင်ရန်
+              <input type="file" id="photoFile" accept="image/*" />
+            </label>
+            <div class="file-name" id="photoName"></div>
+            <p class="note">ပုံတင်လိုက်လျှင် နောက်ခံကို အလိုအလျောက် ဖယ်ရှားပေးပြီး ရွေးထားသော နောက်ခံအရောင်နှင့် ကိုက်ညီအောင် အရောင်ညှိပေးပါမည်။</p>
+            <div class="status" id="photoStatus"></div>
+            <div class="inline-btns">
+              <button class="btn small" id="removeBgBtn" type="button" disabled>နောက်ခံ ပြန်ဖယ်ရှားရန်</button>
+              <button class="btn small danger" id="photoRemove" type="button" disabled>ပုံ ဖျက်ရန်</button>
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="sideSel">ပုံနေရာ</label>
+              <select id="sideSel">
+                <option value="right" selected>ညာဘက်</option>
+                <option value="left">ဘယ်ဘက်</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="photoSize">ပုံအရွယ် — <span class="val" id="photoSizeVal">80%</span></label>
+              <input type="range" id="photoSize" min="30" max="115" value="80" />
+            </div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="bright">တောက်ပမှု — <span class="val" id="brightVal">1.05</span></label>
+              <input type="range" id="bright" min="0.7" max="1.4" step="0.01" value="1.05" />
+            </div>
+            <div class="field">
+              <label for="warmth">နွေးထွေးမှု — <span class="val" id="warmthVal">38</span></label>
+              <input type="range" id="warmth" min="0" max="100" value="38" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="feather">အနားပျော့မှု (နောက်ခံနှင့် ရောစပ်မှု) — <span class="val" id="featherVal">45</span></label>
+            <input type="range" id="feather" min="0" max="100" value="45" />
+          </div>
+        </section>
+
+        <!-- 5. Logo -->
+        <section class="block">
+          <h2><span class="num">၅</span> လိုဂို</h2>
+          <div class="field">
+            <label class="file-btn">လိုဂို တင်ရန်
+              <input type="file" id="logoFile" accept="image/*" />
+            </label>
+            <div class="file-name" id="logoName"></div>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="logoSize">လိုဂို အရွယ် — <span class="val" id="logoSizeVal">130</span></label>
+              <input type="range" id="logoSize" min="40" max="420" value="130" />
+            </div>
+            <div class="field">
+              <label for="logoOpacity">မှုန်ဝါးမှု — <span class="val" id="logoOpacityVal">100%</span></label>
+              <input type="range" id="logoOpacity" min="10" max="100" value="100" />
+            </div>
+          </div>
+          <div class="field">
+            <span class="lab">ထောင့်နေရာသို့ ပို့ရန်</span>
+            <div class="corners">
+              <button type="button" data-corner="top-left">အပေါ်-ဘယ်</button>
+              <button type="button" data-corner="top-center">အပေါ်-အလယ်</button>
+              <button type="button" data-corner="top-right">အပေါ်-ညာ</button>
+              <button type="button" data-corner="bottom-left">အောက်-ဘယ်</button>
+              <button type="button" data-corner="bottom-center">အောက်-အလယ်</button>
+              <button type="button" data-corner="bottom-right">အောက်-ညာ</button>
+            </div>
+          </div>
+          <div class="inline-btns">
+            <button class="btn small danger" id="logoRemove" type="button" disabled>လိုဂို ဖျက်ရန်</button>
+          </div>
+          <p class="note">လိုဂိုကိုလည်း ကတ်ပေါ်တွင် တိုက်ရိုက် ဆွဲရွှေ့နိုင်ပါသည်။</p>
+        </section>
+
+        <!-- 6. Batch -->
+        <section class="block">
+          <h2><span class="num">၆</span> အများအပြား ထုတ်ရန် (Batch)</h2>
+          <button class="btn wide" id="batchToggle" type="button">Batch Panel ဖွင့်ရန်</button>
+          <div id="batchBody" style="display: none; margin-top: 12px;">
+            <div class="field">
+              <label for="batchText">စာသားများ (စာသားတစ်ခုနှင့် တစ်ခု ကြားတွင် စာကြောင်းအလွတ် တစ်ကြောင်း ခွဲခြားရေးပါ)</label>
+              <textarea class="batch-area" id="batchText" placeholder="ပထမ စာသား…&#10;&#10;ဒုတိယ စာသား…&#10;&#10;တတိယ စာသား…"></textarea>
+            </div>
+            <p class="note">လက်ရှိ ဒီဇိုင်း၊ ဆရာတော်ပုံ၊ လိုဂိုနှင့် အမည်တို့ကို စာသားတိုင်းတွင် အသုံးပြုပါမည်။</p>
+            <label class="chk-row"><input type="checkbox" id="batchAllSizes" /> စာသားတိုင်းကို အရွယ်စုံ (1:1 · 4:5 · 9:16 · 16:9) ထုတ်ရန်</label>
+            <button class="btn primary wide" id="batchGo" type="button">အားလုံး ထုတ်ရန် (ZIP)</button>
+            <div class="status" id="batchProgress"></div>
+          </div>
+        </section>
+
+        <section class="block">
+          <button class="btn wide" id="resetPos" type="button">နေရာများ မူလအတိုင်း ပြန်ထားရန်</button>
+        </section>
+      </aside>
+
+      <!-- ================= STAGE ================= -->
+      <main class="stage">
+        <div class="canvas-wrap" id="canvasWrap">
+          <canvas id="card" width="1080" height="1080"></canvas>
+        </div>
+        <p class="stage-hint">
+          <b>ဆွဲရွှေ့ရန် —</b> စာသား၊ အမည်၊ ဆရာတော်ပုံနှင့် လိုဂိုတို့ကို ကတ်ပေါ်တွင် နှိပ်၍ ဆွဲရွှေ့နိုင်ပါသည်။
+          ဒေါင်းလုဒ်လုပ်လျှင် အပြည့်အဝ အရွယ်အစား (full resolution) ဖြင့် ရရှိပါမည်။
+        </p>
+      </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>
+      'use strict';
+      var $ = function (s) { return document.querySelector(s); };
+      var cv = $('#card');
+      var ctx = cv.getContext('2d');
+      var wrap = $('#canvasWrap');
+
+      var SIZES = { '1:1': [1080, 1080], '4:5': [1080, 1350], '9:16': [1080, 1920], '16:9': [1920, 1080] };
+
+      /* Photo colour grade matched to each background theme */
+      var THEME_GRADE = {
+        maroon:   { b: 1.05, w: 38 },
+        purple:   { b: 1.03, w: 12 },
+        sunset:   { b: 1.06, w: 48 },
+        charcoal: { b: 1.00, w: 16 },
+        temple:   { b: 1.07, w: 52 },
+        plain:    { b: 1.02, w: 20 },
+        custom:   { b: 1.04, w: 30 }
+      };
+
+      var S = {
+        size: '1:1',
+        /* quote */
+        quote: '', font: 'Noto Serif Myanmar', fontSize: 64,
+        color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+        bold: true, stroke: true, strokeColor: '#2a0e02', shadow: true,
+        align: 'left', lineSpace: 1.5, autoFit: true,
+        quotePos: { x: 0.055, y: 0.07 },
+        /* background */
+        bg: 'maroon', grad1: '#5a1f16', grad2: '#1d0803', frame: true,
+        /* name */
+        nameText: '', namePos: 'bottom-center', nameCustom: null,
+        nameFont: 'Padauk', nameColor: '#ffe9a8', nameSize: 36,
+        /* photo */
+        photoSide: 'right', photoSize: 80, photoCustom: null, photoCenterTop: false,
+        brightness: 1.05, warmth: 38, feather: 45,
+        /* logo */
+        logoSize: 130, logoOpacity: 1, logoPos: null
+      };
+
+      var bgImage = null;        // uploaded background image (HTMLImageElement)
+      var photoOrig = null;      // original uploaded photo
+      var photoCut = null;       // background-removed photo (HTMLImageElement) or null
+      var photoFileBlob = null;  // original file for re-running removal
+      var photoCanvas = null;    // graded + feathered photo (offscreen canvas)
+      var logoImg = null;
+      var boxes = {};            // last-rendered hit boxes, canvas px
+      var customFontCount = 0;
+
+      function fontStr(family, px, bold) {
+        return (bold ? '700 ' : '400 ') + px + 'px "' + family + '", "Noto Sans Myanmar", sans-serif';
+      }
+      function loadImg(src) {
+        return new Promise(function (res, rej) {
+          var im = new Image();
+          im.onload = function () { res(im); };
+          im.onerror = rej;
+          im.src = src;
+        });
+      }
+
+      /* Built-in fonts embedded via @font-face above. Canvas does not wait for
+         fonts on its own, so explicitly load the selected families (both
+         weights the card uses) before drawing / exporting. */
+      var BUILTIN_FONTS = ['TharLon', 'YoeYar-One', 'Myanmar Head One', 'Myanmar Taungyi',
+        'Myanmar Khway', 'Myanmar Kuttar', 'Myanmar Black', 'Myanmar Nayone', 'Myanmar Angoun'];
+      function ensureFont(family, weight) {
+        if (!document.fonts || !document.fonts.load) return Promise.resolve();
+        return document.fonts.load(weight + ' 60px "' + family + '"', 'တရား').catch(function () {});
+      }
+      function ensureSelectedFonts() {
+        return Promise.all([
+          ensureFont(S.font, '400'),
+          ensureFont(S.font, '700'),
+          ensureFont(S.nameFont, '400'),
+          ensureFont(S.nameFont, '700')
+        ]).catch(function () {});
+      }
+
+      /* ================= layout helpers ================= */
+      /* ================= quote text: *...* highlight markup ================= */
+      /* Any word/phrase wrapped in *...* is a "highlight" run, drawn in the
+         accent colour; the asterisks themselves are never printed. */
+      function parseSegs(text) {
+        var segs = [], re = /\*([^*]+)\*/g, last = 0, m;
+        while ((m = re.exec(text)) !== null) {
+          if (m.index > last) segs.push({ t: text.slice(last, m.index), hl: false });
+          segs.push({ t: m[1], hl: true });
+          last = m.index + m[0].length;
+        }
+        if (last < text.length) segs.push({ t: text.slice(last), hl: false });
+        return segs.length ? segs : [{ t: '', hl: false }];
+      }
+      function tokenize(text) {
+        var toks = [];
+        parseSegs(text).forEach(function (s) {
+          s.t.split(/(\s+)/).forEach(function (p) {
+            if (p) toks.push({ t: p, hl: s.hl, space: /^\s+$/.test(p) });
+          });
+        });
+        return toks;
+      }
+      function makeLine(runs, txt) {
+        var merged = [];
+        runs.forEach(function (r) {
+          if (!r.t) return;
+          var last = merged[merged.length - 1];
+          if (last && last.hl === r.hl) last.t += r.t;
+          else merged.push({ t: r.t, hl: r.hl });
+        });
+        return { runs: merged, text: txt, w: ctx.measureText(txt).width };
+      }
+      function wrapTokens(text, maxW) {
+        var toks = tokenize(text), lines = [], cur = [], curText = '';
+        function flush() {
+          if (cur.length) { lines.push(makeLine(cur, curText)); cur = []; curText = ''; }
+        }
+        function addWide(tk) {
+          /* a single token wider than the line: split it by characters */
+          var rest = tk.t;
+          while (ctx.measureText(rest).width > maxW && rest.length > 1) {
+            var cut = rest.length - 1;
+            while (cut > 1 && ctx.measureText(rest.slice(0, cut)).width > maxW) cut--;
+            lines.push(makeLine([{ t: rest.slice(0, cut), hl: tk.hl }], rest.slice(0, cut)));
+            rest = rest.slice(cut);
+          }
+          cur = [{ t: rest, hl: tk.hl }]; curText = rest;
+        }
+        for (var i = 0; i < toks.length; i++) {
+          var tk = toks[i];
+          if (tk.space && !cur.length) continue; /* never start a line with a space */
+          if (!cur.length) {
+            if (ctx.measureText(tk.t).width > maxW) addWide(tk);
+            else { cur = [{ t: tk.t, hl: tk.hl }]; curText = tk.t; }
+          } else if (ctx.measureText(curText + tk.t).width <= maxW) {
+            cur.push({ t: tk.t, hl: tk.hl }); curText += tk.t;
+          } else {
+            flush();
+            if (tk.space) continue;
+            if (ctx.measureText(tk.t).width > maxW) addWide(tk);
+            else { cur = [{ t: tk.t, hl: tk.hl }]; curText = tk.t; }
+          }
+        }
+        flush();
+        if (!lines.length) lines.push(makeLine([], ''));
+        return lines;
+      }
+
+      function layoutAt(W, H, k, fs) {
+        ctx.font = fontStr(S.font, fs, S.bold);
+        var bx = S.quotePos.x * W, by = S.quotePos.y * H;
+        var maxW = Math.max(120, W - bx - W * 0.04);
+        if (S.autoFit) {
+          /* the quote area excludes the photo side, as in the sample cards */
+          var pg0 = photoGeom(W, H);
+          if (pg0 && !S.photoCustom && !S.photoCenterTop && S.photoSide === 'right') {
+            maxW = Math.max(140, Math.min(maxW, pg0.x + pg0.w * 0.18 - bx));
+          }
+        }
+        var srcLines = (S.quote || '').split('\n');
+        var lines = [];
+        for (var i = 0; i < srcLines.length; i++) {
+          var parts = wrapTokens(srcLines[i], maxW);
+          for (var j = 0; j < parts.length; j++) {
+            lines.push({ runs: parts[j].runs, text: parts[j].text, src: i, w: parts[j].w });
+          }
+        }
+        if (!lines.length) lines = [{ runs: [], text: '', src: 0, w: 0 }];
+        var bw = 0;
+        lines.forEach(function (l) { bw = Math.max(bw, l.w); });
+        var lh = fs * S.lineSpace;
+        return { fs: fs, lines: lines, lh: lh, x: bx, y: by, w: Math.max(bw, 40), h: lines.length * lh + fs * 0.25, maxW: maxW };
+      }
+
+      function quoteFits(lay, W, H, k) {
+        var bottom = H * 0.96;
+        if (S.nameText && S.namePos.indexOf('bottom') === 0) {
+          bottom = Math.min(bottom, H - S.nameSize * k * 2.1 - H * 0.015);
+        }
+        return lay.y + lay.h <= bottom && lay.w <= lay.maxW + 1;
+      }
+
+      function layoutQuote(W, H, k) {
+        var target = S.fontSize * k;
+        var lay = layoutAt(W, H, k, target);
+        if (S.autoFit) {
+          /* shrink step by step until the quote fits its area; never grow */
+          var minFs = Math.max(13 * k, target * 0.3), fs = target, guard = 0;
+          while (!quoteFits(lay, W, H, k) && fs > minFs && guard++ < 80) {
+            fs = Math.max(minFs, fs * 0.93);
+            lay = layoutAt(W, H, k, fs);
+          }
+        }
+        return lay;
+      }
+
+      function photoGeom(W, H) {
+        if (!photoCanvas) return null;
+        var ph = (S.photoSize / 100) * H;
+        var pw = ph * (photoCanvas.width / photoCanvas.height);
+        var x, y;
+        if (S.photoCustom) { x = S.photoCustom.x * W; y = S.photoCustom.y * H; }
+        else if (S.photoCenterTop) { x = (W - pw) / 2; y = H * 0.02; }
+        else {
+          x = S.photoSide === 'right' ? W - pw + pw * 0.03 : -pw * 0.03;
+          y = H - ph;
+        }
+        return { x: x, y: y, w: pw, h: ph };
+      }
+
+      function nameGeom(W, H, k) {
+        var fs = S.nameSize * k;
+        ctx.font = fontStr(S.nameFont, fs, false);
+        var tw = ctx.measureText(S.nameText || '').width;
+        var x, baseline;
+        if (S.namePos === 'custom' && S.nameCustom) {
+          x = S.nameCustom.x * W;
+          baseline = S.nameCustom.y * H + fs;
+        } else {
+          var m = W * 0.055, pos = S.namePos;
+          if (pos.indexOf('left') >= 0) x = m;
+          else if (pos.indexOf('center') >= 0) x = (W - tw) / 2;
+          else x = W - m - tw;
+          baseline = pos.indexOf('bottom') === 0 ? H - fs * 0.95 : fs * 1.75;
+        }
+        return { x: x, baseline: baseline, w: tw, fs: fs, box: { x: x, y: baseline - fs, w: Math.max(tw, 30), h: fs * 1.55 } };
+      }
+
+      function logoGeom(W, H, k) {
+        if (!logoImg) return null;
+        var lw = S.logoSize * k;
+        var lh = lw * (logoImg.naturalHeight / logoImg.naturalWidth);
+        var x, y;
+        if (S.logoPos) { x = S.logoPos.x * W; y = S.logoPos.y * H; }
+        else { x = W * 0.045; y = H - lh - H * 0.04; } /* default bottom-left, like sample 1 */
+        return { x: x, y: y, w: lw, h: lh };
+      }
+
+      /* ================= drawing ================= */
+      function drawBackground(W, H, quoteLay, pg) {
+        if (bgImage) {
+          var s = Math.max(W / bgImage.naturalWidth, H / bgImage.naturalHeight);
+          var dw = bgImage.naturalWidth * s, dh = bgImage.naturalHeight * s;
+          ctx.fillStyle = '#14100c';
+          ctx.fillRect(0, 0, W, H);
+          ctx.drawImage(bgImage, (W - dw) / 2, (H - dh) / 2, dw, dh);
+          return;
+        }
+        var g;
+        switch (S.bg) {
+          case 'maroon':
+            g = ctx.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, '#6d2c1b'); g.addColorStop(0.45, '#431708'); g.addColorStop(1, '#1c0702');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            g = ctx.createRadialGradient(W * 0.3, H * 0.1, 10, W * 0.3, H * 0.1, W * 0.75);
+            g.addColorStop(0, 'rgba(255,170,80,0.20)'); g.addColorStop(1, 'rgba(255,170,80,0)');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            break;
+          case 'purple':
+            g = ctx.createRadialGradient(W * 0.62, H * 0.42, 40, W * 0.62, H * 0.42, W * 0.95);
+            g.addColorStop(0, '#a83c6e'); g.addColorStop(0.45, '#7c1d52'); g.addColorStop(1, '#2a0a2e');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            g = ctx.createRadialGradient(W * 0.3, H * 0.3, 10, W * 0.3, H * 0.3, W * 0.6);
+            g.addColorStop(0, 'rgba(255,190,120,0.22)'); g.addColorStop(1, 'rgba(255,190,120,0)');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            break;
+          case 'sunset': {
+            g = ctx.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, '#e8a04c'); g.addColorStop(0.4, '#b4502e'); g.addColorStop(1, '#571222');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            g = ctx.createRadialGradient(W * 0.85, 0, 10, W * 0.85, 0, W * 0.8);
+            g.addColorStop(0, 'rgba(255,230,160,0.5)'); g.addColorStop(1, 'rgba(255,230,160,0)');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            /* big dark-red circle behind the quote, as in sample 3 */
+            var cx = quoteLay ? quoteLay.x + quoteLay.w / 2 : W * 0.36;
+            var cy = quoteLay ? quoteLay.y + quoteLay.h / 2 : H * 0.44;
+            var r = Math.max(quoteLay ? quoteLay.w * 0.72 : 0, Math.min(W, H) * 0.3);
+            ctx.beginPath();
+            ctx.arc(cx, cy, r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(74,14,20,0.88)';
+            ctx.fill();
+            break;
+          }
+          case 'charcoal': {
+            g = ctx.createRadialGradient(W * 0.5, H * 0.38, 40, W * 0.5, H * 0.38, W * 0.95);
+            g.addColorStop(0, '#3d4148'); g.addColorStop(0.55, '#232529'); g.addColorStop(1, '#101114');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            /* golden halo ring behind the Sayadaw's head, as in sample 4 */
+            var hx, hy, hr;
+            if (pg) { hx = pg.x + pg.w / 2; hy = pg.y + pg.h * 0.20; hr = pg.w * 0.47; }
+            else { hx = W * 0.72; hy = H * 0.22; hr = W * 0.16; }
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(hx, hy, hr, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255,214,110,0.95)';
+            ctx.lineWidth = Math.max(3, W * 0.006);
+            ctx.shadowColor = 'rgba(255,196,64,0.9)';
+            ctx.shadowBlur = W * 0.035;
+            ctx.stroke();
+            ctx.stroke();
+            ctx.restore();
+            break;
+          }
+          case 'temple': {
+            g = ctx.createRadialGradient(W * 0.5, H * 0.06, 10, W * 0.5, H * 0.06, W * 1.05);
+            g.addColorStop(0, '#ffdf8a'); g.addColorStop(0.35, '#a8741f'); g.addColorStop(1, '#241503');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            ctx.save();
+            ctx.globalAlpha = 0.10;
+            ctx.fillStyle = '#fff3c4';
+            for (var i = -2; i < 5; i++) {
+              ctx.beginPath();
+              ctx.moveTo(W * 0.5, -H * 0.05);
+              ctx.lineTo(W * (0.16 + i * 0.17), H);
+              ctx.lineTo(W * (0.24 + i * 0.17), H);
+              ctx.closePath(); ctx.fill();
+            }
+            ctx.restore();
+            break;
+          }
+          case 'plain':
+            g = ctx.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, '#232326'); g.addColorStop(1, '#131315');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            break;
+          default: /* custom */
+            g = ctx.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, S.grad1); g.addColorStop(1, S.grad2);
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        }
+      }
+
+      function drawFrame(W, H, k) {
+        if (!S.frame) return;
+        ctx.save();
+        ctx.strokeStyle = 'rgba(232,196,92,0.9)';
+        ctx.lineWidth = 3 * k;
+        ctx.strokeRect(16 * k, 16 * k, W - 32 * k, H - 32 * k);
+        ctx.strokeStyle = 'rgba(232,196,92,0.45)';
+        ctx.lineWidth = 1.4 * k;
+        ctx.strokeRect(28 * k, 28 * k, W - 56 * k, H - 56 * k);
+        /* corner diamonds */
+        ctx.fillStyle = 'rgba(232,196,92,0.95)';
+        var ins = 16 * k;
+        var cs = [[ins, ins], [W - ins, ins], [ins, H - ins], [W - ins, H - ins]];
+        cs.forEach(function (p) {
+          ctx.save();
+          ctx.translate(p[0], p[1]);
+          ctx.rotate(Math.PI / 4);
+          var d = 10 * k;
+          ctx.fillRect(-d / 2, -d / 2, d, d);
+          ctx.restore();
+        });
+        ctx.restore();
+      }
+
+      function drawQuote(lay) {
+        ctx.save();
+        ctx.textBaseline = 'alphabetic';
+        ctx.lineJoin = 'round';
+        for (var i = 0; i < lay.lines.length; i++) {
+          var ln = lay.lines[i];
+          var x = lay.x;
+          if (S.align === 'center') x = lay.x + (lay.w - ln.w) / 2;
+          else if (S.align === 'right') x = lay.x + (lay.w - ln.w);
+          var y = lay.y + lay.fs + i * lay.lh;
+          var base = ln.src < S.accentLines ? S.accent : S.color;
+          if (S.shadow) {
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';
+            ctx.shadowBlur = lay.fs / 5;
+            ctx.shadowOffsetY = lay.fs / 18;
+          } else { ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0; }
+          ctx.font = fontStr(S.font, lay.fs, S.bold);
+          /* draw run by run so *...* words take the accent colour mid-line */
+          var runs = ln.runs && ln.runs.length ? ln.runs : [{ t: ln.text, hl: false }];
+          for (var r = 0; r < runs.length; r++) {
+            var run = runs[r];
+            if (!run.t) continue;
+            ctx.fillStyle = run.hl ? S.accent : base;
+            if (S.stroke) {
+              ctx.strokeStyle = S.strokeColor;
+              ctx.lineWidth = Math.max(1.5, lay.fs / 13);
+              ctx.strokeText(run.t, x, y);
+            }
+            ctx.fillText(run.t, x, y);
+            x += ctx.measureText(run.t).width;
+          }
+        }
+        ctx.restore();
+        boxes.quote = { x: lay.x, y: lay.y, w: lay.w, h: lay.h };
+      }
+
+      /* Paint the full card onto any 2d context at any size, optionally with a
+         different quote text. All draw helpers read the global `ctx`, so it is
+         swapped for the duration of the paint and restored afterwards. */
+      function paint(g, W, H, quoteOverride) {
+        var prevCtx = ctx, prevQuote = S.quote, prevBoxes = boxes;
+        ctx = g;
+        if (quoteOverride !== undefined && quoteOverride !== null) S.quote = quoteOverride;
+        boxes = {};
+        var k = W / 1080;
+        var lay = layoutQuote(W, H, k);
+        var pg = photoGeom(W, H);
+        drawBackground(W, H, lay, pg);
+        if (pg && photoCanvas) {
+          ctx.drawImage(photoCanvas, pg.x, pg.y, pg.w, pg.h);
+          boxes.photo = pg;
+        }
+        drawFrame(W, H, k);
+        drawQuote(lay);
+        /* name */
+        if (S.nameText) {
+          var ng = nameGeom(W, H, k);
+          ctx.save();
+          ctx.font = fontStr(S.nameFont, ng.fs, false);
+          ctx.textBaseline = 'alphabetic';
+          ctx.shadowColor = 'rgba(0,0,0,0.55)';
+          ctx.shadowBlur = ng.fs / 4;
+          ctx.shadowOffsetY = 2;
+          ctx.fillStyle = S.nameColor;
+          ctx.fillText(S.nameText, ng.x, ng.baseline);
+          ctx.restore();
+          boxes.name = ng.box;
+        }
+        /* logo */
+        var lg = logoGeom(W, H, k);
+        if (lg) {
+          ctx.save();
+          ctx.globalAlpha = S.logoOpacity;
+          ctx.drawImage(logoImg, lg.x, lg.y, lg.w, lg.h);
+          ctx.restore();
+          boxes.logo = lg;
+        }
+        var out = boxes;
+        boxes = prevBoxes; S.quote = prevQuote; ctx = prevCtx;
+        return out;
+      }
+
+      function render() {
+        var dim = SIZES[S.size], W = dim[0], H = dim[1];
+        if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
+        wrap.style.setProperty('--ar', String(W / H));
+        boxes = paint(ctx, W, H, null);
+      }
+
+      function renderOffscreen(W, H, quote) {
+        var c = document.createElement('canvas');
+        c.width = W; c.height = H;
+        paint(c.getContext('2d'), W, H, quote);
+        return c;
+      }
+      function canvasBlob(c) {
+        return new Promise(function (res) { c.toBlob(res, 'image/png'); });
+      }
+      function downloadBlob(blob, name) {
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+      }
+      /* One ZIP when JSZip loaded; otherwise download the files one by one. */
+      function saveFiles(files, zipName) {
+        if (typeof JSZip !== 'undefined' && files.length > 1) {
+          var zip = new JSZip();
+          files.forEach(function (f) { zip.file(f.name, f.blob); });
+          return zip.generateAsync({ type: 'blob' }).then(function (blob) {
+            downloadBlob(blob, zipName);
+          }).catch(function () { return saveFilesSeq(files); });
+        }
+        return saveFilesSeq(files);
+      }
+      function saveFilesSeq(files) {
+        var chain = Promise.resolve();
+        files.forEach(function (f) {
+          chain = chain.then(function () {
+            downloadBlob(f.blob, f.name);
+            return new Promise(function (r) { setTimeout(r, 450); });
+          });
+        });
+        return chain;
+      }
+
+      /* ================= photo processing ================= */
+      function fadeEdges(g, w, h) {
+        var f = (S.feather / 100) * Math.min(w, h) * 0.5;
+        if (f < 1) return;
+        var isCut = !!photoCut;
+        var bot = f * (isCut ? 0.7 : 2.4), side = f, top = f * 0.35;
+        g.globalCompositeOperation = 'destination-out';
+        var gr;
+        gr = g.createLinearGradient(0, h - bot, 0, h);
+        gr.addColorStop(0, 'rgba(0,0,0,0)'); gr.addColorStop(1, 'rgba(0,0,0,1)');
+        g.fillStyle = gr; g.fillRect(0, h - bot, w, bot);
+        gr = g.createLinearGradient(0, 0, side, 0);
+        gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = gr; g.fillRect(0, 0, side, h);
+        gr = g.createLinearGradient(w, 0, w - side, 0);
+        gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = gr; g.fillRect(w - side, 0, side, h);
+        gr = g.createLinearGradient(0, 0, 0, top);
+        gr.addColorStop(0, 'rgba(0,0,0,1)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
+        g.fillStyle = gr; g.fillRect(0, 0, w, top);
+        g.globalCompositeOperation = 'source-over';
+      }
+
+      function processPhoto() {
+        var src = photoCut || photoOrig;
+        if (!src) { photoCanvas = null; return; }
+        var nw = src.naturalWidth, nh = src.naturalHeight;
+        var maxDim = 1600, sc = Math.min(1, maxDim / Math.max(nw, nh));
+        var w = Math.round(nw * sc), h = Math.round(nh * sc);
+        var c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        var g = c.getContext('2d');
+        try {
+          g.filter = 'brightness(' + S.brightness + ') contrast(1.06) saturate(1.08) sepia(' + (S.warmth / 100 * 0.55).toFixed(3) + ')';
+        } catch (e) { /* older browsers: grade skipped */ }
+        g.drawImage(src, 0, 0, w, h);
+        try { g.filter = 'none'; } catch (e) {}
+        fadeEdges(g, w, h);
+        photoCanvas = c;
+      }
+
+      function setStatus(msg, kind) {
+        var el = $('#photoStatus');
+        el.textContent = msg || '';
+        el.className = 'status' + (msg ? ' show' : '') + (kind ? ' ' + kind : '');
+      }
+
+      function attemptRemoveBg() {
+        if (!photoFileBlob) return;
+        var btn = $('#removeBgBtn');
+        btn.disabled = true;
+        setStatus('နောက်ခံ ဖယ်ရှားနေပါသည်… ပထမအကြိမ်တွင် model ဖိုင် ဒေါင်းလုဒ်လုပ်ရသဖြင့် အချိန်အနည်းငယ် ကြာနိုင်ပါသည်။');
+        import('https://cdn.jsdelivr.net/npm/@imgly/background-removal@1.7.0/+esm')
+          .then(function (mod) {
+            return mod.removeBackground(photoFileBlob, {
+              progress: function (key, cur, tot) {
+                if (tot > 0) setStatus('နောက်ခံ ဖယ်ရှားနေပါသည်… ' + Math.round((cur / tot) * 100) + '%');
+              }
+            });
+          })
+          .then(function (blob) {
+            return loadImg(URL.createObjectURL(blob));
+          })
+          .then(function (img) {
+            photoCut = img;
+            processPhoto();
+            render();
+            btn.disabled = false;
+            setStatus('နောက်ခံ ဖယ်ရှားပြီးပါပြီ။ ပုံကို ကတ်ပေါ်တွင် ဆွဲရွှေ့၍ နေရာချနိုင်ပါသည်။', 'ok');
+          })
+          .catch(function () {
+            btn.disabled = false;
+            setStatus('အလိုအလျောက် နောက်ခံဖယ်ရှားမှု မအောင်မြင်ပါ (အင်တာနက် သို့မဟုတ် browser ကြောင့် ဖြစ်နိုင်သည်)။ အနားပျော့ blend ပုံစံဖြင့် ပုံကို ဆက်သုံးနိုင်ပါသည် — "အနားပျော့မှု" slider ကို တိုး၍ ညှိကြည့်ပါ။', 'warn');
+          });
+      }
+
+      /* ================= dragging ================= */
+      var drag = null;
+      function toCanvas(e) {
+        var r = cv.getBoundingClientRect();
+        return {
+          x: (e.clientX - r.left) * (cv.width / r.width),
+          y: (e.clientY - r.top) * (cv.height / r.height)
+        };
+      }
+      function hitTest(p) {
+        var order = ['logo', 'name', 'quote', 'photo'];
+        for (var i = 0; i < order.length; i++) {
+          var b = boxes[order[i]];
+          if (b && p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h) return order[i];
+        }
+        return null;
+      }
+      cv.addEventListener('pointerdown', function (e) {
+        var p = toCanvas(e);
+        var hit = hitTest(p);
+        if (!hit) return;
+        drag = { el: hit, dx: p.x - boxes[hit].x, dy: p.y - boxes[hit].y };
+        try { cv.setPointerCapture(e.pointerId); } catch (err) {}
+        e.preventDefault();
+      });
+      cv.addEventListener('pointermove', function (e) {
+        if (!drag) return;
+        var p = toCanvas(e), W = cv.width, H = cv.height;
+        var nx = (p.x - drag.dx) / W, ny = (p.y - drag.dy) / H;
+        if (drag.el === 'quote') S.quotePos = { x: nx, y: ny };
+        else if (drag.el === 'name') {
+          if (S.namePos !== 'custom') {
+            S.namePos = 'custom';
+          }
+          S.nameCustom = { x: nx, y: ny };
+        } else if (drag.el === 'photo') S.photoCustom = { x: nx, y: ny };
+        else if (drag.el === 'logo') S.logoPos = { x: nx, y: ny };
+        render();
+      });
+      function endDrag() { drag = null; }
+      cv.addEventListener('pointerup', endDrag);
+      cv.addEventListener('pointercancel', endDrag);
+
+      /* ================= controls ================= */
+      function bindRange(id, valId, fmt, fn) {
+        var el = $(id);
+        el.addEventListener('input', function () {
+          var v = parseFloat(el.value);
+          $(valId).textContent = fmt(v);
+          fn(v);
+          render();
+        });
+      }
+      function num(v) { return String(Math.round(v)); }
+
+      /* quote */
+      S.quote = $('#quoteText').value;
+      S.nameText = $('#nameText').value;
+      $('#quoteText').addEventListener('input', function (e) { S.quote = e.target.value; render(); });
+      $('#fontSel').addEventListener('change', function (e) {
+        S.font = e.target.value;
+        render();
+        ensureSelectedFonts().then(render);
+      });
+      bindRange('#fontSize', '#fontSizeVal', num, function (v) { S.fontSize = v; });
+      $('#colorMain').addEventListener('input', function (e) { S.color = e.target.value; render(); });
+      $('#colorAccent').addEventListener('input', function (e) { S.accent = e.target.value; render(); });
+      bindRange('#accentLines', '#accentLinesVal', num, function (v) { S.accentLines = v; });
+      bindRange('#lineSpace', '#lineSpaceVal', function (v) { return v.toFixed(2); }, function (v) { S.lineSpace = v; });
+      $('#strokeColor').addEventListener('input', function (e) { S.strokeColor = e.target.value; render(); });
+
+      function bindToggle(id, key) {
+        var el = $(id);
+        el.addEventListener('click', function () {
+          S[key] = !S[key];
+          el.setAttribute('aria-pressed', String(S[key]));
+          render();
+        });
+      }
+      bindToggle('#boldBtn', 'bold');
+      bindToggle('#strokeBtn', 'stroke');
+      bindToggle('#shadowBtn', 'shadow');
+      bindToggle('#frameBtn', 'frame');
+      bindToggle('#autoFitBtn', 'autoFit');
+
+      $('#alignSeg').addEventListener('click', function (e) {
+        var b = e.target.closest('button');
+        if (!b) return;
+        S.align = b.getAttribute('data-align');
+        this.querySelectorAll('button').forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        render();
+      });
+
+      /* custom font */
+      $('#fontFile').addEventListener('change', function (e) {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        var fam = 'CustomFont' + (++customFontCount) + '-' + f.name.replace(/\.[^.]+$/, '').replace(/[^\w-]/g, '');
+        f.arrayBuffer().then(function (buf) {
+          var face = new FontFace(fam, buf);
+          return face.load().then(function (loaded) {
+            document.fonts.add(loaded);
+            [['#fontSel', true], ['#nameFontSel', false]].forEach(function (pair) {
+              var sel = $(pair[0]);
+              var opt = document.createElement('option');
+              opt.value = fam;
+              opt.textContent = 'ကိုယ်ပိုင်: ' + f.name;
+              sel.appendChild(opt);
+              if (pair[1]) { sel.value = fam; S.font = fam; }
+            });
+            render();
+          });
+        }).catch(function () { /* unreadable font file: ignore */ });
+      });
+
+      /* background */
+      $('#bgSel').addEventListener('change', function (e) {
+        S.bg = e.target.value;
+        var grade = THEME_GRADE[S.bg];
+        if (grade) {
+          S.brightness = grade.b; S.warmth = grade.w;
+          $('#bright').value = grade.b; $('#brightVal').textContent = grade.b.toFixed(2);
+          $('#warmth').value = grade.w; $('#warmthVal').textContent = String(grade.w);
+          if (photoOrig) processPhoto();
+        }
+        render();
+      });
+      function customGrad(which) {
+        return function (e) {
+          S[which] = e.target.value;
+          if (S.bg !== 'custom') { S.bg = 'custom'; $('#bgSel').value = 'custom'; }
+          render();
+        };
+      }
+      $('#grad1').addEventListener('input', customGrad('grad1'));
+      $('#grad2').addEventListener('input', customGrad('grad2'));
+      $('#bgImgFile').addEventListener('change', function (e) {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        loadImg(URL.createObjectURL(f)).then(function (img) {
+          bgImage = img;
+          $('#bgImgName').textContent = f.name;
+          $('#bgImgClear').disabled = false;
+          render();
+        });
+      });
+      $('#bgImgClear').addEventListener('click', function () {
+        bgImage = null;
+        $('#bgImgName').textContent = '';
+        $('#bgImgFile').value = '';
+        this.disabled = true;
+        render();
+      });
+
+      /* name */
+      $('#nameText').addEventListener('input', function (e) { S.nameText = e.target.value; render(); });
+      $('#namePosSel').addEventListener('change', function (e) {
+        S.namePos = e.target.value;
+        S.nameCustom = null;
+        render();
+      });
+      $('#nameFontSel').addEventListener('change', function (e) {
+        S.nameFont = e.target.value;
+        render();
+        ensureSelectedFonts().then(render);
+      });
+      $('#nameColor').addEventListener('input', function (e) { S.nameColor = e.target.value; render(); });
+      bindRange('#nameSize', '#nameSizeVal', num, function (v) { S.nameSize = v; });
+
+      /* photo */
+      $('#photoFile').addEventListener('change', function (e) {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        photoFileBlob = f;
+        photoCut = null;
+        S.photoCustom = null;
+        S.photoCenterTop = false;
+        $('#photoName').textContent = f.name;
+        loadImg(URL.createObjectURL(f)).then(function (img) {
+          photoOrig = img;
+          processPhoto();
+          $('#removeBgBtn').disabled = false;
+          $('#photoRemove').disabled = false;
+          $('#savePhotoLib').disabled = false;
+          render();
+          attemptRemoveBg();
+        });
+      });
+      $('#removeBgBtn').addEventListener('click', attemptRemoveBg);
+      $('#photoRemove').addEventListener('click', function () {
+        photoOrig = null; photoCut = null; photoCanvas = null; photoFileBlob = null;
+        S.photoCustom = null;
+        S.photoCenterTop = false;
+        $('#photoName').textContent = '';
+        $('#photoFile').value = '';
+        $('#removeBgBtn').disabled = true;
+        $('#savePhotoLib').disabled = true;
+        this.disabled = true;
+        setStatus('');
+        render();
+      });
+      $('#sideSel').addEventListener('change', function (e) {
+        S.photoSide = e.target.value;
+        S.photoCustom = null;
+        S.photoCenterTop = false;
+        render();
+      });
+      bindRange('#photoSize', '#photoSizeVal', function (v) { return num(v) + '%'; }, function (v) { S.photoSize = v; });
+      bindRange('#bright', '#brightVal', function (v) { return v.toFixed(2); }, function (v) { S.brightness = v; processPhoto(); });
+      bindRange('#warmth', '#warmthVal', num, function (v) { S.warmth = v; processPhoto(); });
+      bindRange('#feather', '#featherVal', num, function (v) { S.feather = v; processPhoto(); });
+
+      /* logo */
+      $('#logoFile').addEventListener('change', function (e) {
+        var f = e.target.files && e.target.files[0];
+        if (!f) return;
+        loadImg(URL.createObjectURL(f)).then(function (img) {
+          logoImg = img;
+          S.logoPos = null;
+          $('#logoName').textContent = f.name;
+          $('#logoRemove').disabled = false;
+          $('#saveLogoLib').disabled = false;
+          render();
+        });
+      });
+      $('#logoRemove').addEventListener('click', function () {
+        logoImg = null; S.logoPos = null;
+        $('#logoName').textContent = '';
+        $('#logoFile').value = '';
+        $('#saveLogoLib').disabled = true;
+        this.disabled = true;
+        render();
+      });
+      bindRange('#logoSize', '#logoSizeVal', num, function (v) { S.logoSize = v; });
+      bindRange('#logoOpacity', '#logoOpacityVal', function (v) { return num(v) + '%'; }, function (v) { S.logoOpacity = v / 100; });
+      document.querySelectorAll('[data-corner]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          if (!logoImg) return;
+          var W = cv.width, H = cv.height, k = W / 1080;
+          var lg = logoGeom(W, H, k);
+          var m = W * 0.045, c = b.getAttribute('data-corner'), x, y;
+          if (c.indexOf('left') >= 0) x = m;
+          else if (c.indexOf('center') >= 0) x = (W - lg.w) / 2;
+          else x = W - m - lg.w;
+          y = c.indexOf('top') === 0 ? H * 0.04 : H - lg.h - H * 0.04;
+          S.logoPos = { x: x / W, y: y / H };
+          render();
+        });
+      });
+
+      /* size + export + reset */
+      $('#sizeSel').addEventListener('change', function (e) { S.size = e.target.value; render(); });
+      function download(fmt) {
+        /* wait until the selected fonts are really loaded, so the exported
+           image never falls back to a default font */
+        ensureSelectedFonts().then(function () {
+          render();
+          cv.toBlob(function (b) {
+            if (!b) return;
+            var a = document.createElement('a');
+            a.href = URL.createObjectURL(b);
+            a.download = 'dhamma-quote-card.' + (fmt === 'png' ? 'png' : 'jpg');
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
+          }, fmt === 'png' ? 'image/png' : 'image/jpeg', 0.92);
+        });
+      }
+      $('#dlPng').addEventListener('click', function () { download('png'); });
+      $('#dlJpg').addEventListener('click', function () { download('jpg'); });
+      $('#resetPos').addEventListener('click', function () {
+        S.quotePos = { x: 0.055, y: 0.07 };
+        S.namePos = $('#namePosSel').value;
+        S.nameCustom = null;
+        S.photoCustom = null;
+        S.photoCenterTop = false;
+        S.logoPos = null;
+        render();
+      });
+
+      /* ================= templates ================= */
+      var MYD = '၀၁၂၃၄၅၆၇၈၉';
+      function myNum(n) { return String(n).replace(/[0-9]/g, function (d) { return MYD[+d]; }); }
+      function setStatusEl(id, msg, kind) {
+        var el = $(id);
+        el.textContent = msg || '';
+        el.className = 'status' + (msg ? ' show' : '') + (kind ? ' ' + kind : '');
+      }
+
+      var PRESETS = {
+        maroonClassic: { bg: 'maroon', frame: true, color: '#ffffff', accent: '#ffd94d', accentLines: 4,
+          align: 'left', quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 30 },
+        purpleGlow: { bg: 'purple', frame: true, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          align: 'left', quotePos: { x: 0.42, y: 0.09 }, photoSide: 'left', photoCenterTop: false,
+          namePos: 'bottom-right', nameColor: '#f7a8c4', nameSize: 34 },
+        sunsetCircle: { bg: 'sunset', frame: false, color: '#ffffff', accent: '#ffffff', accentLines: 0,
+          align: 'left', quotePos: { x: 0.09, y: 0.30 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffffff', nameSize: 32 },
+        darkHalo: { bg: 'charcoal', frame: false, color: '#ffffff', accent: '#e9c979', accentLines: 0,
+          align: 'center', quotePos: { x: 0.10, y: 0.55 }, photoSide: 'right', photoCenterTop: true, photoSize: 50,
+          namePos: 'bottom-center', nameColor: '#e9c979', nameSize: 34 }
+      };
+      var DESIGN_KEYS = ['bg', 'grad1', 'grad2', 'frame', 'font', 'fontSize', 'color', 'accent',
+        'accentLines', 'bold', 'stroke', 'strokeColor', 'shadow', 'align', 'lineSpace', 'autoFit',
+        'namePos', 'nameFont', 'nameColor', 'nameSize', 'photoSide', 'photoSize', 'feather'];
+      function captureDesign() {
+        var d = {};
+        DESIGN_KEYS.forEach(function (k) { d[k] = S[k]; });
+        d.quotePos = { x: S.quotePos.x, y: S.quotePos.y };
+        d.photoCenterTop = !!S.photoCenterTop;
+        if (S.namePos === 'custom') d.namePos = 'bottom-center';
+        return d;
+      }
+      function placeLogoCorner(corner) {
+        if (!logoImg) return;
+        var W = cv.width, H = cv.height, k = W / 1080;
+        var lg = logoGeom(W, H, k);
+        if (!lg) return;
+        var m = W * 0.045, x, y;
+        if (corner.indexOf('left') >= 0) x = m;
+        else if (corner.indexOf('center') >= 0) x = (W - lg.w) / 2;
+        else x = W - m - lg.w;
+        y = corner.indexOf('top') === 0 ? H * 0.04 : H - lg.h - H * 0.04;
+        S.logoPos = { x: x / W, y: y / H };
+      }
+      function syncUI() {
+        $('#fontSel').value = S.font;
+        $('#fontSize').value = S.fontSize; $('#fontSizeVal').textContent = num(S.fontSize);
+        $('#colorMain').value = S.color;
+        $('#colorAccent').value = S.accent;
+        $('#accentLines').value = S.accentLines; $('#accentLinesVal').textContent = num(S.accentLines);
+        $('#strokeColor').value = S.strokeColor;
+        $('#lineSpace').value = S.lineSpace; $('#lineSpaceVal').textContent = Number(S.lineSpace).toFixed(2);
+        $('#boldBtn').setAttribute('aria-pressed', String(S.bold));
+        $('#strokeBtn').setAttribute('aria-pressed', String(S.stroke));
+        $('#shadowBtn').setAttribute('aria-pressed', String(S.shadow));
+        $('#frameBtn').setAttribute('aria-pressed', String(S.frame));
+        $('#autoFitBtn').setAttribute('aria-pressed', String(S.autoFit));
+        $('#alignSeg').querySelectorAll('button').forEach(function (b) {
+          b.setAttribute('aria-pressed', String(b.getAttribute('data-align') === S.align));
+        });
+        $('#bgSel').value = S.bg;
+        $('#grad1').value = S.grad1; $('#grad2').value = S.grad2;
+        $('#namePosSel').value = S.namePos;
+        $('#nameFontSel').value = S.nameFont;
+        $('#nameColor').value = S.nameColor;
+        $('#nameSize').value = S.nameSize; $('#nameSizeVal').textContent = num(S.nameSize);
+        $('#sideSel').value = S.photoSide;
+        $('#photoSize').value = S.photoSize; $('#photoSizeVal').textContent = num(S.photoSize) + '%';
+        $('#bright').value = S.brightness; $('#brightVal').textContent = Number(S.brightness).toFixed(2);
+        $('#warmth').value = S.warmth; $('#warmthVal').textContent = num(S.warmth);
+        $('#feather').value = S.feather; $('#featherVal').textContent = num(S.feather);
+        $('#logoSize').value = S.logoSize; $('#logoSizeVal').textContent = num(S.logoSize);
+        $('#logoOpacity').value = Math.round(S.logoOpacity * 100);
+        $('#logoOpacityVal').textContent = num(S.logoOpacity * 100) + '%';
+      }
+      function applyDesign(d) {
+        DESIGN_KEYS.forEach(function (k) { if (d[k] !== undefined) S[k] = d[k]; });
+        if (d.quotePos) S.quotePos = { x: d.quotePos.x, y: d.quotePos.y };
+        S.photoCenterTop = !!d.photoCenterTop;
+        S.nameCustom = null;
+        S.photoCustom = null;
+        var grade = THEME_GRADE[S.bg];
+        if (grade) { S.brightness = grade.b; S.warmth = grade.w; }
+        if (photoOrig) processPhoto();
+        syncUI();
+        if (d.logoCorner) placeLogoCorner(d.logoCorner);
+        render();
+        ensureSelectedFonts().then(render);
+      }
+      $('#presetGrid').addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-preset]');
+        if (!b) return;
+        var p = PRESETS[b.getAttribute('data-preset')];
+        if (!p) return;
+        /* keep the user's own fonts; presets carry design, colours, positions */
+        var d = {};
+        Object.keys(p).forEach(function (k) { d[k] = p[k]; });
+        applyDesign(d);
+        setStatusEl('#tplStatus', 'ပုံစံ «' + b.querySelector('b').textContent + '» ကို အသုံးပြုထားပါသည်။', 'ok');
+      });
+
+      /* saved templates (this browser only) */
+      var TPL_KEY = 'dhamma-quote-templates';
+      function loadTpls() {
+        try { return JSON.parse(localStorage.getItem(TPL_KEY) || '[]'); } catch (e) { return []; }
+      }
+      function storeTpls(list) {
+        try { localStorage.setItem(TPL_KEY, JSON.stringify(list)); } catch (e) {}
+      }
+      function renderSavedTpls() {
+        var host = $('#savedTpls');
+        host.innerHTML = '';
+        loadTpls().forEach(function (t, i) {
+          var row = document.createElement('div');
+          row.className = 'saved-row';
+          var ap = document.createElement('button');
+          ap.type = 'button'; ap.className = 'apply'; ap.textContent = t.name;
+          ap.addEventListener('click', function () {
+            applyDesign(t.design);
+            setStatusEl('#tplStatus', 'ပုံစံ «' + t.name + '» ကို အသုံးပြုထားပါသည်။', 'ok');
+          });
+          var del = document.createElement('button');
+          del.type = 'button'; del.className = 'del'; del.textContent = 'ဖျက်ရန်';
+          del.addEventListener('click', function () {
+            var list = loadTpls();
+            list.splice(i, 1);
+            storeTpls(list);
+            renderSavedTpls();
+          });
+          row.appendChild(ap); row.appendChild(del);
+          host.appendChild(row);
+        });
+      }
+      $('#tplSave').addEventListener('click', function () {
+        var name = $('#tplName').value.trim();
+        if (!name) { setStatusEl('#tplStatus', 'ပုံစံအမည် အရင် ရေးပေးပါ။', 'warn'); return; }
+        var list = loadTpls();
+        list.push({ name: name, design: captureDesign() });
+        storeTpls(list);
+        $('#tplName').value = '';
+        renderSavedTpls();
+        setStatusEl('#tplStatus', 'ပုံစံ «' + name + '» ကို သိမ်းပြီးပါပြီ။', 'ok');
+      });
+      renderSavedTpls();
+
+      /* ================= photo / logo library ================= */
+      function applyLibraryPhoto(src, name, isCut) {
+        loadImg(src).then(function (img) {
+          photoOrig = img;
+          photoCut = isCut ? img : null;
+          photoFileBlob = null;
+          S.photoCustom = null;
+          S.photoCenterTop = false;
+          $('#photoName').textContent = name;
+          $('#photoFile').value = '';
+          $('#removeBgBtn').disabled = true;
+          $('#photoRemove').disabled = false;
+          $('#savePhotoLib').disabled = false;
+          processPhoto();
+          render();
+          setStatus('Library မှ «' + name + '» ပုံကို သုံးထားပါသည်။ နောက်ခံ ဖယ်ပြီးသား ပုံ ဖြစ်ပါသည်။', 'ok');
+        }).catch(function () {
+          setStatus('ပုံ ဖွင့်၍ မရပါ။', 'warn');
+        });
+      }
+      function applyLibraryLogo(src, name) {
+        loadImg(src).then(function (img) {
+          logoImg = img;
+          S.logoPos = null;
+          $('#logoName').textContent = name;
+          $('#logoFile').value = '';
+          $('#logoRemove').disabled = false;
+          $('#saveLogoLib').disabled = false;
+          render();
+        });
+      }
+      document.querySelectorAll('[data-lib-photo]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          applyLibraryPhoto(b.getAttribute('data-lib-photo'), b.getAttribute('data-lib-name'), true);
+        });
+      });
+      document.querySelectorAll('[data-lib-logo]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          applyLibraryLogo(b.getAttribute('data-lib-logo'), b.getAttribute('data-lib-name'));
+        });
+      });
+      /* "My Library" — processed images kept in IndexedDB on this device */
+      var idbDb = null;
+      function idbOpen() {
+        return new Promise(function (res, rej) {
+          if (idbDb) return res(idbDb);
+          if (!window.indexedDB) return rej(new Error('no idb'));
+          var rq = indexedDB.open('dhamma-quote-lib', 1);
+          rq.onupgradeneeded = function () {
+            rq.result.createObjectStore('items', { keyPath: 'id', autoIncrement: true });
+          };
+          rq.onsuccess = function () { idbDb = rq.result; res(idbDb); };
+          rq.onerror = function () { rej(rq.error); };
+        });
+      }
+      function idbAll() {
+        return idbOpen().then(function (db) {
+          return new Promise(function (res, rej) {
+            var out = [], store = db.transaction('items', 'readonly').objectStore('items');
+            var rq = store.openCursor();
+            rq.onsuccess = function (e) {
+              var c = e.target.result;
+              if (c) { out.push(c.value); c.continue(); } else res(out);
+            };
+            rq.onerror = function () { rej(rq.error); };
+          });
+        });
+      }
+      function idbAdd(item) {
+        return idbOpen().then(function (db) {
+          return new Promise(function (res, rej) {
+            var tx = db.transaction('items', 'readwrite');
+            tx.objectStore('items').add(item);
+            tx.oncomplete = function () { res(); };
+            tx.onerror = function () { rej(tx.error); };
+          });
+        });
+      }
+      function idbDel(id) {
+        return idbOpen().then(function (db) {
+          return new Promise(function (res, rej) {
+            var tx = db.transaction('items', 'readwrite');
+            tx.objectStore('items').delete(id);
+            tx.oncomplete = function () { res(); };
+            tx.onerror = function () { rej(tx.error); };
+          });
+        });
+      }
+      function imgToDataURL(img, maxDim) {
+        var nw = img.naturalWidth, nh = img.naturalHeight;
+        var sc = Math.min(1, maxDim / Math.max(nw, nh));
+        var c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(nw * sc));
+        c.height = Math.max(1, Math.round(nh * sc));
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        return c.toDataURL('image/png');
+      }
+      function renderMyLib() {
+        var host = $('#myLib');
+        host.innerHTML = '';
+        idbAll().then(function (items) {
+          $('#myLibEmpty').style.display = items.length ? 'none' : '';
+          items.forEach(function (it) {
+            var box = document.createElement('div');
+            box.className = 'lib-item';
+            var im = document.createElement('img');
+            im.src = it.data; im.alt = it.name;
+            var lab = document.createElement('span');
+            lab.className = 'lab'; lab.textContent = it.name;
+            var del = document.createElement('button');
+            del.type = 'button'; del.className = 'del'; del.textContent = '×';
+            del.title = 'ဖျက်ရန်';
+            del.addEventListener('click', function (e) {
+              e.stopPropagation();
+              idbDel(it.id).then(renderMyLib);
+            });
+            box.appendChild(im); box.appendChild(lab); box.appendChild(del);
+            box.addEventListener('click', function () {
+              if (it.kind === 'logo') applyLibraryLogo(it.data, it.name);
+              else applyLibraryPhoto(it.data, it.name, !!it.cut);
+            });
+            host.appendChild(box);
+          });
+        }).catch(function () { /* IndexedDB unavailable: section stays empty */ });
+      }
+      $('#savePhotoLib').addEventListener('click', function () {
+        var src = photoCut || photoOrig;
+        if (!src) return;
+        var name = ($('#photoName').textContent || 'ဆရာတော်ပုံ').replace(/\.[^.]+$/, '');
+        idbAdd({ kind: 'photo', name: name, cut: !!photoCut, data: imgToDataURL(src, 1400) })
+          .then(function () { renderMyLib(); setStatusEl('#libStatus', 'ပုံကို My Library ထဲ သိမ်းပြီးပါပြီ။', 'ok'); })
+          .catch(function () { setStatusEl('#libStatus', 'သိမ်း၍ မရပါ (browser storage မရနိုင်ပါ)။', 'warn'); });
+      });
+      $('#saveLogoLib').addEventListener('click', function () {
+        if (!logoImg) return;
+        var name = ($('#logoName').textContent || 'Logo').replace(/\.[^.]+$/, '');
+        idbAdd({ kind: 'logo', name: name, cut: true, data: imgToDataURL(logoImg, 800) })
+          .then(function () { renderMyLib(); setStatusEl('#libStatus', 'Logo ကို My Library ထဲ သိမ်းပြီးပါပြီ။', 'ok'); })
+          .catch(function () { setStatusEl('#libStatus', 'သိမ်း၍ မရပါ (browser storage မရနိုင်ပါ)။', 'warn'); });
+      });
+      renderMyLib();
+
+      /* ================= multi-size export ================= */
+      var ALL_SIZE_KEYS = ['1:1', '4:5', '9:16', '16:9'];
+      $('#exportAllSizes').addEventListener('click', function () {
+        var btn = this;
+        btn.disabled = true;
+        setStatusEl('#exportStatus', 'အရွယ်စုံ ထုတ်နေပါသည်…');
+        ensureSelectedFonts().then(async function () {
+          var files = [];
+          for (var i = 0; i < ALL_SIZE_KEYS.length; i++) {
+            var key = ALL_SIZE_KEYS[i], dim = SIZES[key];
+            var c = renderOffscreen(dim[0], dim[1], null);
+            var blob = await canvasBlob(c);
+            if (blob) files.push({ name: 'card-' + key.replace(':', 'x') + '.png', blob: blob });
+            setStatusEl('#exportStatus', myNum(i + 1) + ' / ' + myNum(ALL_SIZE_KEYS.length) + ' ပြီးပါပြီ');
+          }
+          await saveFiles(files, 'dhamma-cards-all-sizes.zip');
+          setStatusEl('#exportStatus', 'အရွယ် ၄ မျိုး ထုတ်ပြီးပါပြီ။', 'ok');
+          btn.disabled = false;
+        }).catch(function () {
+          setStatusEl('#exportStatus', 'ထုတ်၍ မရပါ၊ ပြန်စမ်းကြည့်ပါ။', 'warn');
+          btn.disabled = false;
+        });
+      });
+
+      /* ================= batch mode ================= */
+      $('#batchToggle').addEventListener('click', function () {
+        var body = $('#batchBody');
+        var open = body.style.display !== 'none';
+        body.style.display = open ? 'none' : '';
+        this.textContent = open ? 'Batch Panel ဖွင့်ရန်' : 'Batch Panel ပိတ်ရန်';
+      });
+      function pad2(n) { return (n < 10 ? '0' : '') + n; }
+      $('#batchGo').addEventListener('click', function () {
+        var btn = this;
+        var raw = $('#batchText').value.replace(/\r\n?/g, '\n');
+        var quotes = raw.split(/\n[ \t]*\n/).map(function (q) { return q.trim(); })
+          .filter(function (q) { return q.length > 0; });
+        if (!quotes.length) {
+          setStatusEl('#batchProgress', 'စာသား အရင် ထည့်ပေးပါ (စာသားကြား စာကြောင်းအလွတ် တစ်ကြောင်း ခွဲပါ)။', 'warn');
+          return;
+        }
+        var allSizes = $('#batchAllSizes').checked;
+        var sizeKeys = allSizes ? ALL_SIZE_KEYS : [S.size];
+        btn.disabled = true;
+        setStatusEl('#batchProgress', 'ထုတ်နေပါသည်…');
+        ensureSelectedFonts().then(async function () {
+          var files = [];
+          for (var i = 0; i < quotes.length; i++) {
+            for (var j = 0; j < sizeKeys.length; j++) {
+              var dim = SIZES[sizeKeys[j]];
+              var c = renderOffscreen(dim[0], dim[1], quotes[i]);
+              var blob = await canvasBlob(c);
+              if (blob) {
+                var nm = 'quote-' + pad2(i + 1) + (allSizes ? '-' + sizeKeys[j].replace(':', 'x') : '') + '.png';
+                files.push({ name: nm, blob: blob });
+              }
+            }
+            setStatusEl('#batchProgress', myNum(i + 1) + ' / ' + myNum(quotes.length) + ' ပြီးပါပြီ');
+            await new Promise(function (r) { setTimeout(r, 10); });
+          }
+          await saveFiles(files, 'dhamma-quotes-batch.zip');
+          setStatusEl('#batchProgress', 'စာသား ' + myNum(quotes.length) + ' ခု၊ ပုံ ' + myNum(files.length) + ' ပုံ ထုတ်ပြီးပါပြီ။', 'ok');
+          btn.disabled = false;
+        }).catch(function () {
+          setStatusEl('#batchProgress', 'ထုတ်၍ မရပါ၊ ပြန်စမ်းကြည့်ပါ။', 'warn');
+          btn.disabled = false;
+        });
+      });
+
+      /* first paint + re-render once webfonts arrive so canvas text shapes with the real fonts */
+      render();
+      if (document.fonts) {
+        var loads = [];
+        ['Noto Serif Myanmar', 'Noto Sans Myanmar', 'Padauk'].concat(BUILTIN_FONTS).forEach(function (fam) {
+          loads.push(document.fonts.load('700 60px "' + fam + '"', 'တရား'));
+          loads.push(document.fonts.load('400 60px "' + fam + '"', 'တရား'));
+        });
+        Promise.all(loads).then(render).catch(function () {});
+        if (document.fonts.ready) document.fonts.ready.then(render).catch(function () {});
+      }
+    </script>
+  </body>
+</html>

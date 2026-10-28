@@ -6,50 +6,71 @@
     <meta name="color-scheme" content="dark" />
     <link rel="icon" href="data:," />
     <title>Dhamma Quote Card Maker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;700&family=Noto+Serif+Myanmar:wght@400;600;700;900&family=Padauk:wght@400;700&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#2a060d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Quote Maker" />
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png" />
+
     <style>
       /* ---- built-in fonts (embedded, no upload / no network needed) ---- */
-      @font-face { font-family: "TharLon"; src: url(fonts/TharLon.woff2) format("woff2"); format("woff2");
+      @font-face {
+        font-family: "TharLon";
+        src: url(fonts/TharLon.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "YoeYar-One"; src: url(fonts/YoeYarOneBold.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "YoeYar-One";
+        src: url(fonts/YoeYarOneBold.woff2) format("woff2");
         font-weight: 700;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Head One"; src: url(fonts/MyanmarThuriya.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Head One";
+        src: url(fonts/MyanmarThuriya.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Taungyi"; src: url(fonts/MyanmarTaungyi.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Taungyi";
+        src: url(fonts/MyanmarTaungyi.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Khway"; src: url(fonts/MyanmarKhway.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Khway";
+        src: url(fonts/MyanmarKhway.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Kuttar"; src: url(fonts/MyanmarKuttar.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Kuttar";
+        src: url(fonts/MyanmarKuttar.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Black"; src: url(fonts/MyanmarBlack.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Black";
+        src: url(fonts/MyanmarBlack.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Nayone"; src: url(fonts/MyanmarNayone.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Nayone";
+        src: url(fonts/MyanmarNayone.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
-      @font-face { font-family: "Myanmar Angoun"; src: url(fonts/MyanmarAngoun.woff2) format("woff2"); format("woff2");
+      }
+      @font-face {
+        font-family: "Myanmar Angoun";
+        src: url(fonts/MyanmarAngoun.woff2) format("woff2");
         font-weight: 400;
         font-display: swap;
-       }
+      }
       :root {
         color-scheme: dark;
         --bg: #0e0f12;
@@ -70,7 +91,7 @@
         margin: 0;
         background: var(--bg);
         color: var(--ink);
-        font-family: "Noto Sans Myanmar", "Padauk", sans-serif;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         font-size: 15px;
         line-height: 1.55;
       }
@@ -93,7 +114,7 @@
       }
       .panel-head { margin-bottom: 14px; }
       .panel-head h1 {
-        font-family: "Noto Serif Myanmar", serif;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
         font-size: 21px;
         font-weight: 700;
         color: var(--gold);
@@ -270,6 +291,8 @@
         color: var(--danger);
       }
       .lib-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+      .el-grid { grid-template-columns: repeat(4, 1fr); }
+      .el-grid .lib-item img { background: #232028; border-radius: 6px; }
       .lib-item {
         position: relative; background: #101116; border: 1px solid var(--line);
         border-radius: var(--radius); padding: 6px 6px 7px; cursor: pointer; text-align: center;
@@ -284,6 +307,23 @@
         color: var(--danger); cursor: pointer; font-size: 13px; padding: 0;
       }
       .sub-h { font-size: 13px; font-weight: 700; color: var(--ink-dim); margin: 14px 0 8px; }
+
+      /* ---------- collapsible sections (click header to expand) ---------- */
+      .collap-wrap { display: grid; grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows 0.32s ease, visibility 0s; }
+      .collap-wrap > .collap-inner { overflow: hidden; min-height: 0; }
+      .collap-wrap.closed { grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows 0.32s ease, visibility 0s 0.32s; }
+      .col-toggle { cursor: pointer; user-select: none; -webkit-user-select: none; }
+      .col-toggle:hover { color: var(--gold); }
+      .col-toggle:focus-visible { outline: 2px solid var(--gold-deep); outline-offset: 3px; border-radius: 4px; }
+      .col-toggle .chev {
+        margin-left: auto; flex: none; width: 24px; text-align: center; color: var(--gold); font-size: 13px; line-height: 1;
+        transform: rotate(-90deg); transition: transform 0.25s ease;
+      }
+      .col-toggle.open .chev { transform: rotate(0deg); }
+      .sub-h.col-toggle { display: flex; align-items: center; gap: 8px; }
+      @media (prefers-reduced-motion: reduce) {
+        .collap-wrap, .col-toggle .chev { transition: none; }
+      }
       textarea.batch-area { min-height: 170px; }
       .chk-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; font-size: 13.5px; color: var(--ink-dim); }
       .chk-row input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--gold); }
@@ -321,17 +361,64 @@
         <div class="export-row" style="margin-top: 2px;">
           <button class="btn" id="exportAllSizes" type="button" style="flex: 1;">အရွယ်စုံ ထုတ်ရန် — 1:1 · 4:5 · 9:16 · 16:9 (ZIP)</button>
         </div>
+        <div class="export-row" style="margin-top: 2px;">
+          <button class="btn gold-ghost" id="shareBtn" type="button">📤 Share လုပ်ရန်</button>
+        </div>
         <div class="status" id="exportStatus"></div>
 
         <!-- Templates -->
         <section class="block">
-          <h2>ပုံစံများ (Templates)</h2>
+          <h2 class="col-toggle" id="tplMainHead" role="button" tabindex="0" aria-expanded="false" aria-controls="tplMainBody">ပုံစံများ (Templates)<span class="chev" aria-hidden="true">▾</span></h2>
+          <div class="collap-wrap closed" id="tplMainBody"><div class="collap-inner">
           <div class="tpl-grid" id="presetGrid">
             <button type="button" data-preset="maroonClassic"><b>Maroon Classic</b><span>နီညို · ရွှေဘောင် · ပုံ ညာဘက်</span></button>
             <button type="button" data-preset="purpleGlow"><b>Purple Glow</b><span>ခရမ်း · ပုံ ဘယ်ဘက်</span></button>
             <button type="button" data-preset="sunsetCircle"><b>Sunset Circle</b><span>နေဝင် စက်ဝိုင်း · ဘောင်မပါ</span></button>
             <button type="button" data-preset="darkHalo"><b>Dark Halo</b><span>အမှောင် · ရွှေအလင်းဝိုင်း · ပုံ အလယ်အပေါ်</span></button>
+            <button type="button" data-preset="oilLamp"><b>ဆီမီးအလင်း</b><span>Oil Lamp Glow · အမှောင်ညို · အလယ် အလင်းဝါ · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="dawnSky"><b>မိုးသား</b><span>Dawn Sky · လိမ္မော်-ပန်း · စာသား နီညိုရင့်</span></button>
+            <button type="button" data-preset="oceanDeep"><b>သမုဒ္ဒရာ</b><span>Ocean Deep · စိမ်း-ပြာရင့် · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="forestShade"><b>တောရိပ်</b><span>Forest Shade · အစိမ်းရင့် · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="roseNight"><b>နှင်းဆီည</b><span>Rose Night · နှင်းဆီအနီရင့် · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="blackGold"><b>ရွှေအနက်</b><span>Black Gold · အနက်စစ် · ရွှေ gradient စာသား · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="cloudyWhite"><b>မိုးတိမ်ဖြူ</b><span>Cloudy White · Cream အလင်း · စာသား နီညို</span></button>
+            <button type="button" data-preset="nightSky"><b>ညကောင်းကင်</b><span>Night Sky · ခရမ်း-အပြာရင့် · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="parchment"><b>ပေစာပုံစံ</b><span>Parchment · ပေစာ အညိုဖျော့ · စာသား အညိုရင့်</span></button>
+            <button type="button" data-preset="pagodaGold"><b>စေတီရွှေ</b><span>Pagoda Gold · ရွှေဘုရား · စာသား နီညိုရင့်</span></button>
+            <button type="button" data-preset="lampGoldFrame"><b>ရွှေဘောင်အညို</b><span>Lamp Brown · ရွှေဘောင် · ပုံ ဘယ်ဘက်</span></button>
+            <button type="button" data-preset="redBrownGold"><b>အနီညိုရွှေစာ</b><span>Red Brown · ရွှေစာ · ပုံ ညာဘက်</span></button>
+            <button type="button" data-preset="redBrownList"><b>အနီညိုစာရင်း</b><span>Red Brown List · အဖြူစာရင်း · ပုံ ညာဘက်</span></button>
+            <button type="button" data-preset="allGoldText"><b>ရွှေစာလုံး</b><span>All Gold Text · ပုံ ညာဘက်</span></button>
+            <button type="button" data-preset="smokyBrown"><b>အမှိုင်းအညို</b><span>Smoky Brown · အလျားလိုက် · ပုံ ညာဘက်</span></button>
+            <button type="button" data-preset="moonNightPanel"><b>လရောင်ညကွက်</b><span>Moonlit Night · စာသားကွက် · ပုံ အလယ်အပေါ်</span></button>
+            <button type="button" data-preset="navyWave"><b>နက်ပြာလှိုင်း</b><span>Deep Navy · ပုံ ဘယ်ဘက်</span></button>
           </div>
+          <div class="sub-h">🖼 Image Layout Templates</div>
+          <p class="note" style="margin: 0 0 8px;">နမူနာကတ်များ၏ ပုံအခင်းအကျင်း အတိုင်း — နောက်ခံမြင်ကွင်း၊ အလှဆင်ကြိုးနှင့် element များ အပါအဝင်။ ရွေးပြီးနောက် စာသား၊ font နှင့် ပုံကို စိတ်ကြိုက် ပြန်ညှိနိုင်ပါသည်။</p>
+          <div class="tpl-grid" id="layoutGrid">
+            <button type="button" data-layout="layoutLotus"><b>Layout · ကြာပန်းအနီညို</b><span>အနီညို · ရွှေစာ · ကြာပန်း element · ပုံ ညာဘက်</span></button>
+            <button type="button" data-layout="layoutBandList"><b>Layout · အနီညိုကြိုး</b><span>အနီညိုရင့် · ဘယ်ကြိုး · အဖြူစာရင်း · ပုံ ညာဘက်</span></button>
+            <button type="button" data-layout="layoutBandGold"><b>Layout · ကြိုးရွှေစာ</b><span>အနီညို · ဘယ်ကြိုး · စာ တစ်ခုလုံး ရွှေ · ပုံ ညာဘက်</span></button>
+            <button type="button" data-layout="layoutLampScene"><b>Layout · ဆီမီးရိပ်</b><span>ဆီမီးအလင်း မြင်ကွင်း · အဖြူစာ · ပုံ ညာဘက်</span></button>
+            <button type="button" data-layout="layoutNightScene"><b>Layout · လရောင်ည</b><span>ညကောင်းကင် မြင်ကွင်း · စာသားကွက် · ပုံ အလယ်အပေါ်</span></button>
+            <button type="button" data-layout="layoutNavyWave"><b>Layout · နက်ပြာလှိုင်း</b><span>နက်ပြာ · အနက်လှိုင်း · ပုံ ဘယ်ဘက်</span></button>
+          </div>
+          <div class="sub-h col-toggle" id="toiHead" role="button" tabindex="0" aria-expanded="false" aria-controls="toiBody">ပုံပေါ်စာတင်ရန် Templates (Text-on-Image Templates)<span class="chev" aria-hidden="true">▾</span></div>
+          <div class="collap-wrap closed" id="toiBody"><div class="collap-inner">
+          <p class="note" style="margin: 0 0 8px;">နောက်ခံပုံ တင်ထားလျှင် ပုံပေါ်တွင် အမှောင်ကာ (scrim) ခံ၍ စာသား ကြည်လင်စွာ ဖတ်နိုင်အောင် လုပ်ပေးပါသည်။ နောက်ခံပုံ မရှိလျှင်လည်း template အလိုက် အမှောင် gradient နောက်ခံနှင့် ပြည့်စုံစွာ ပေါ်ပါမည်။</p>
+          <div class="tpl-grid" id="toiGrid">
+            <button type="button" data-preset="fullDarkScrim"><b>အမှောင်ကာအပြည့်</b><span>Full Dark Scrim · ပုံတစ်ခုလုံး အမှောင် ၅၅% · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="bottomScrim"><b>အောက်ခြေအမှောင်</b><span>Bottom Scrim · အောက်ခြေမှ အမှောင် တက်လာ</span></button>
+            <button type="button" data-preset="leftScrim"><b>ဘယ်ဘက်အမှောင်</b><span>Left Scrim · စာသား ဘယ် · ပုံညာဘက် ပေါ်</span></button>
+            <button type="button" data-preset="rightScrim"><b>ညာဘက်အမှောင်</b><span>Right Scrim · စာသား ညာ · ပုံ ဘယ်ဘက် ပေါ်</span></button>
+            <button type="button" data-preset="topScrim"><b>အပေါ်အမှောင်</b><span>Top Scrim · အပေါ်မှ အမှောင် ဆင်းလာ</span></button>
+            <button type="button" data-preset="vignetteFocus"><b>ဗဟိုပတ်လည်အမှောင်</b><span>Vignette Focus · အနားများ အမှောင် · ရွှေဘောင်</span></button>
+            <button type="button" data-preset="blurDark"><b>မှုန်ဝါးအမှောင်</b><span>Blur Dark · ပုံ မှုန်ဝါး + အမှောင် · ဘောင်မပါ</span></button>
+            <button type="button" data-preset="goldFrameNoir"><b>ရွှေဘောင်ညဉ့်</b><span>Gold Frame Noir · ရွှေဘောင် + ရွှေ gradient စာသား</span></button>
+            <button type="button" data-preset="midnightBlue"><b>နက်ပြာညဉ့်</b><span>Midnight Blue · နက်ပြာ အမှောင်ကာ</span></button>
+            <button type="button" data-preset="textPanel"><b>စာသားနောက်ခံကွက်</b><span>Text Panel · စာသားနောက်တွင်သာ အမှောင်ကွက်</span></button>
+          </div>
+          </div></div>
           <p class="note">ပုံစံ တစ်ခုနှိပ်လိုက်လျှင် နောက်ခံ၊ အရောင်၊ ဘောင်၊ ပုံနေရာ စသည့် ဒီဇိုင်းအားလုံး တန်းပြောင်းသွားပါမည်။ (စာသားနှင့် ပုံ မပြောင်းပါ။)</p>
           <div class="field" style="margin-top: 12px;">
             <label for="tplName">လက်ရှိ ဒီဇိုင်းကို ကိုယ်ပိုင် ပုံစံအဖြစ် သိမ်းရန်</label>
@@ -342,6 +429,7 @@
           </div>
           <div id="savedTpls"></div>
           <div class="status" id="tplStatus"></div>
+          </div></div>
         </section>
 
         <!-- Built-in + personal library -->
@@ -406,12 +494,7 @@
                   <option value="Myanmar Kuttar">Myanmar Kuttar</option>
                   <option value="Myanmar Black">Myanmar Black</option>
                   <option value="Myanmar Nayone">Myanmar Nayone</option>
-                  <option value="Myanmar Angoun">Myanmar Angoun</option>
-                </optgroup>
-                <optgroup label="Google Fonts">
-                  <option value="Noto Serif Myanmar" selected>Noto Serif Myanmar</option>
-                  <option value="Noto Sans Myanmar">Noto Sans Myanmar</option>
-                  <option value="Padauk">Padauk</option>
+                  <option value="Myanmar Angoun" selected>Myanmar Angoun</option>
                 </optgroup>
               </select>
             </div>
@@ -446,6 +529,7 @@
               <button class="tgl" id="boldBtn" type="button" aria-pressed="true">စာလုံးထူ (Bold)</button>
               <button class="tgl" id="strokeBtn" type="button" aria-pressed="true">အနားသတ် (Outline)</button>
               <button class="tgl" id="shadowBtn" type="button" aria-pressed="true">အရိပ် (Shadow)</button>
+              <button class="tgl" id="goldTextBtn" type="button" aria-pressed="false">ရွှေ gradient</button>
             </div>
           </div>
           <div class="field">
@@ -470,8 +554,8 @@
             </div>
           </div>
           <div class="field">
-            <label for="lineSpace">စာကြောင်းအကွာအဝေး — <span class="val" id="lineSpaceVal">1.50</span></label>
-            <input type="range" id="lineSpace" min="1.1" max="2.2" step="0.05" value="1.5" />
+            <label for="lineSpace">စာကြောင်းအကွာအဝေး — <span class="val" id="lineSpaceVal">1.80</span></label>
+            <input type="range" id="lineSpace" min="1.1" max="2.2" step="0.05" value="1.8" />
           </div>
         </section>
 
@@ -487,6 +571,8 @@
               <option value="charcoal">အမှောင် + ရွှေအလင်းဝိုင်း (Charcoal Halo)</option>
               <option value="temple">ရွှေဘုရား အလင်းတန်း (Golden Temple)</option>
               <option value="plain">ရိုးရိုး အမှောင် (Plain Dark)</option>
+              <option value="lamp">ဆီမီးအလင်း (Oil Lamp Glow)</option>
+              <option value="navyWave">နက်ပြာ + အနက်လှိုင်း (Navy Wave)</option>
               <option value="custom">ကိုယ်ပိုင် အရောင် (Custom Gradient)</option>
             </select>
           </div>
@@ -505,6 +591,7 @@
             <div class="tgl-row">
               <button class="tgl" id="frameBtn" type="button" aria-pressed="true">ရွှေဘောင် ထည့်ရန်</button>
             </div>
+            <label class="chk-row"><input type="checkbox" id="bandToggle" /> အလှဆင်ကြိုး (ဘယ်)</label>
           </div>
           <div class="field">
             <span class="lab">နောက်ခံပုံ ကိုယ်တိုင်တင်ရန် (ရှိလျှင် gradient အစား သုံးမည်)</span>
@@ -515,6 +602,35 @@
             <div class="inline-btns">
               <button class="btn small danger" id="bgImgClear" type="button" disabled>နောက်ခံပုံ ဖျက်ရန်</button>
             </div>
+          </div>
+          <div class="field">
+            <label for="scrimSel">နောက်ခံပုံပေါ် အမှောင်ကာ (Scrim) — စာသား ဖတ်ရလွယ်အောင်</label>
+            <select id="scrimSel">
+              <option value="none" selected>အမှောင်ကာ မပါ</option>
+              <option value="full">အပြည့် (Full)</option>
+              <option value="bottom">အောက်ခြေမှ တက်လာ (Bottom-up)</option>
+              <option value="top">အပေါ်မှ ဆင်းလာ (Top-down)</option>
+              <option value="left">ဘယ်ဘက် (Left)</option>
+              <option value="right">ညာဘက် (Right)</option>
+              <option value="vignette">ပတ်လည် အနားအမှောင် (Vignette)</option>
+            </select>
+          </div>
+          <div class="row2">
+            <div class="field">
+              <label for="scrimOpacity">အမှောင်ကာ ပြင်းအား — <span class="val" id="scrimOpacityVal">55%</span></label>
+              <input type="range" id="scrimOpacity" min="0" max="90" value="55" />
+            </div>
+            <div class="field">
+              <label for="scrimBlur">နောက်ခံပုံ မှုန်ဝါးမှု — <span class="val" id="scrimBlurVal">0</span></label>
+              <input type="range" id="scrimBlur" min="0" max="24" value="0" />
+            </div>
+          </div>
+          <div class="field">
+            <span class="lab">စာသားနောက်ခံကွက် (Text Panel)</span>
+            <div class="tgl-row">
+              <button class="tgl" id="textPanelBtn" type="button" aria-pressed="false">စာသားနောက်တွင် အမှောင်ကွက် ထည့်ရန်</button>
+            </div>
+            <p class="note">ဖွင့်ထားလျှင် စာသားအတုံး နောက်တွင်သာ မှိန်သော အမှောင်ကွက် ပေါ်ပါမည် — နောက်ခံပုံ ကျန်နေရာများတွင် တောက်ပစွာ ပေါ်နေပါမည်။</p>
           </div>
         </section>
 
@@ -549,12 +665,7 @@
                   <option value="Myanmar Kuttar">Myanmar Kuttar</option>
                   <option value="Myanmar Black">Myanmar Black</option>
                   <option value="Myanmar Nayone">Myanmar Nayone</option>
-                  <option value="Myanmar Angoun">Myanmar Angoun</option>
-                </optgroup>
-                <optgroup label="Google Fonts">
-                  <option value="Noto Serif Myanmar">Noto Serif Myanmar</option>
-                  <option value="Noto Sans Myanmar">Noto Sans Myanmar</option>
-                  <option value="Padauk" selected>Padauk</option>
+                  <option value="Myanmar Angoun" selected>Myanmar Angoun</option>
                 </optgroup>
               </select>
             </div>
@@ -580,7 +691,8 @@
               <input type="file" id="photoFile" accept="image/*" />
             </label>
             <div class="file-name" id="photoName"></div>
-            <p class="note">ပုံတင်လိုက်လျှင် နောက်ခံကို အလိုအလျောက် ဖယ်ရှားပေးပြီး ရွေးထားသော နောက်ခံအရောင်နှင့် ကိုက်ညီအောင် အရောင်ညှိပေးပါမည်။</p>
+            <p class="note">«နောက်ခံဖယ်ရှားရန်» ကို အမှတ်ခြစ်ထားလျှင် ပုံတင်လိုက်သည်နှင့် နောက်ခံကို အလိုအလျောက် ဖယ်ရှားပေးပါမည်။ အမှတ်ဖြုတ်ထားလျှင် မူရင်းပုံကို ဒီအတိုင်း သုံးပါမည်။ မည်သို့ပင်ဖြစ်စေ ရွေးထားသော နောက်ခံအရောင်နှင့် ကိုက်ညီအောင် အရောင်ညှိပေးပါမည်။</p>
+            <label class="chk-row"><input type="checkbox" id="bgRemoveToggle" checked /> နောက်ခံဖယ်ရှားရန်</label>
             <div class="status" id="photoStatus"></div>
             <div class="inline-btns">
               <button class="btn small" id="removeBgBtn" type="button" disabled>နောက်ခံ ပြန်ဖယ်ရှားရန်</button>
@@ -652,6 +764,52 @@
           <p class="note">လိုဂိုကိုလည်း ကတ်ပေါ်တွင် တိုက်ရိုက် ဆွဲရွှေ့နိုင်ပါသည်။</p>
         </section>
 
+        <!-- Dhamma elements -->
+        <section class="block">
+          <h2>ဓမ္မ Elements</h2>
+          <p class="note" style="margin: 0 0 10px;">Element တစ်ခုကို နှိပ်လိုက်လျှင် ကတ်ပေါ်သို့ ထည့်ပေးပါမည် (အများဆုံး ၈ ခု)။ ကတ်ပေါ်ရှိ element ကို ဆွဲရွှေ့၍ နေရာချနိုင်ပြီး၊ နှိပ်၍ ရွေးထားလျှင် အရွယ်နှင့် မှုန်ဝါးမှု ပြန်ညှိနိုင်ပါသည်။</p>
+          <div class="lib-grid el-grid" id="elGrid">
+            <button class="lib-item" type="button" data-el="lotus">
+              <img src="assets/asset-01ff424c.png" alt="ကြာပန်း" />
+              <span class="lab">ကြာပန်း</span>
+            </button>
+            <button class="lib-item" type="button" data-el="wheel">
+              <img src="assets/asset-02870f6c.png" alt="ဓမ္မစက်ဝိုင်း" />
+              <span class="lab">ဓမ္မစက်ဝိုင်း</span>
+            </button>
+            <button class="lib-item" type="button" data-el="pagoda">
+              <img src="assets/asset-a03a5ca1.png" alt="စေတီ" />
+              <span class="lab">စေတီ</span>
+            </button>
+            <button class="lib-item" type="button" data-el="lamp">
+              <img src="assets/asset-ddb4f92f.png" alt="ဆီမီး" />
+              <span class="lab">ဆီမီး</span>
+            </button>
+          </div>
+          <div id="elControls" style="display: none; margin-top: 12px;">
+            <div class="field">
+              <span class="lab" id="elSelName">ရွေးထားသည်</span>
+            </div>
+            <div class="row2">
+              <div class="field">
+                <label for="elSize">Element အရွယ် — <span class="val" id="elSizeVal">30%</span></label>
+                <input type="range" id="elSize" min="5" max="90" value="30" />
+              </div>
+              <div class="field">
+                <label for="elOpacity">မှုန်ဝါးမှု — <span class="val" id="elOpacityVal">100%</span></label>
+                <input type="range" id="elOpacity" min="10" max="100" value="100" />
+              </div>
+            </div>
+            <div class="inline-btns">
+              <button class="btn small danger" id="elDelete" type="button">ဖျက်ရန်</button>
+            </div>
+          </div>
+          <div class="inline-btns" style="margin-top: 10px;">
+            <button class="btn small" id="elClearAll" type="button" disabled>အကုန် ဖျက်ရန်</button>
+          </div>
+          <div class="status" id="elStatus"></div>
+        </section>
+
         <!-- 6. Batch -->
         <section class="block">
           <h2><span class="num">၆</span> အများအပြား ထုတ်ရန် (Batch)</h2>
@@ -663,6 +821,7 @@
             </div>
             <p class="note">လက်ရှိ ဒီဇိုင်း၊ ဆရာတော်ပုံ၊ လိုဂိုနှင့် အမည်တို့ကို စာသားတိုင်းတွင် အသုံးပြုပါမည်။</p>
             <label class="chk-row"><input type="checkbox" id="batchAllSizes" /> စာသားတိုင်းကို အရွယ်စုံ (1:1 · 4:5 · 9:16 · 16:9) ထုတ်ရန်</label>
+            <label class="chk-row"><input type="checkbox" id="batchRotateBg" checked /> Background လှည့်ရန် (Quote တစ်ခုချင်းစီ နောက်ခံ မတူအောင် အစဉ်လိုက် လှည့်ပေးရန်)</label>
             <button class="btn primary wide" id="batchGo" type="button">အားလုံး ထုတ်ရန် (ZIP)</button>
             <div class="status" id="batchProgress"></div>
           </div>
@@ -703,22 +862,34 @@
         charcoal: { b: 1.00, w: 16 },
         temple:   { b: 1.07, w: 52 },
         plain:    { b: 1.02, w: 20 },
+        lamp:     { b: 1.04, w: 46 },
         custom:   { b: 1.04, w: 30 }
       };
 
       var S = {
         size: '1:1',
         /* quote */
-        quote: '', font: 'Noto Serif Myanmar', fontSize: 64,
+        quote: '', font: 'Myanmar Angoun', fontSize: 64,
         color: '#ffffff', accent: '#ffd94d', accentLines: 2,
-        bold: true, stroke: true, strokeColor: '#2a0e02', shadow: true,
-        align: 'left', lineSpace: 1.5, autoFit: true,
+        bold: true, stroke: true, strokeColor: '#2a0e02', shadow: true, goldText: false,
+        align: 'left', lineSpace: 1.8, autoFit: true,
         quotePos: { x: 0.055, y: 0.07 },
         /* background */
         bg: 'maroon', grad1: '#5a1f16', grad2: '#1d0803', frame: true,
+        /* scene background (built-in photo scene from the layout templates):
+           null | 'night' | 'lamp' — replaces the gradient / uploaded photo bg */
+        scene: null,
+        /* ornament band strip down the left edge */
+        band: false,
+        /* Dhamma elements on the card: [{type, x, y, w, opacity}] —
+           x/y/w are card fractions, w = width as a fraction of card width */
+        elements: [],
+        /* background-image treatment (used by the Text-on-Image templates) */
+        scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0,
+        textPanel: false, textPanelOpacity: 0.55,
         /* name */
         nameText: '', namePos: 'bottom-center', nameCustom: null,
-        nameFont: 'Padauk', nameColor: '#ffe9a8', nameSize: 36,
+        nameFont: 'Myanmar Angoun', nameColor: '#ffe9a8', nameSize: 36,
         /* photo */
         photoSide: 'right', photoSize: 80, photoCustom: null, photoCenterTop: false,
         brightness: 1.05, warmth: 38, feather: 45,
@@ -730,13 +901,36 @@
       var photoOrig = null;      // original uploaded photo
       var photoCut = null;       // background-removed photo (HTMLImageElement) or null
       var photoFileBlob = null;  // original file for re-running removal
+      /* background-removal toggle: persisted UI preference, default ON */
+      var BG_REMOVE_KEY = 'dhamma-quote-bg-remove';
+      var bgRemoveOn = true;
+      try { bgRemoveOn = localStorage.getItem(BG_REMOVE_KEY) !== '0'; } catch (e) {}
       var photoCanvas = null;    // graded + feathered photo (offscreen canvas)
       var logoImg = null;
+      /* built-in scene / band / element artwork (app asset files) */
+      var SCENE_SRC = { night: 'assets/asset-69ad0789.jpg', lamp: 'assets/asset-32760692.jpg' };
+      var sceneImgs = {};        // key -> HTMLImageElement once loaded
+      var bandImg = null;
+      var EL_DEFS = {
+        lotus:  { src: 'assets/asset-01ff424c.png',  label: 'ကြာပန်း' },
+        wheel:  { src: 'assets/asset-02870f6c.png',  label: 'ဓမ္မစက်ဝိုင်း' },
+        pagoda: { src: 'assets/asset-a03a5ca1.png', label: 'စေတီ' },
+        lamp:   { src: 'assets/asset-ddb4f92f.png',   label: 'ဆီမီး' }
+      };
+      var elImgs = {};           // type -> HTMLImageElement once loaded
+      var selEl = -1;            // index of the selected element (-1 = none)
+      Object.keys(SCENE_SRC).forEach(function (key) {
+        loadImg(SCENE_SRC[key]).then(function (im) { sceneImgs[key] = im; render(); }).catch(function () {});
+      });
+      loadImg('assets/asset-03eed7ac.png').then(function (im) { bandImg = im; render(); }).catch(function () {});
+      Object.keys(EL_DEFS).forEach(function (key) {
+        loadImg(EL_DEFS[key].src).then(function (im) { elImgs[key] = im; render(); }).catch(function () {});
+      });
       var boxes = {};            // last-rendered hit boxes, canvas px
       var customFontCount = 0;
 
       function fontStr(family, px, bold) {
-        return (bold ? '700 ' : '400 ') + px + 'px "' + family + '", "Noto Sans Myanmar", sans-serif';
+        return (bold ? '700 ' : '400 ') + px + 'px "' + family + '", sans-serif';
       }
       function loadImg(src) {
         return new Promise(function (res, rej) {
@@ -752,6 +946,16 @@
          weights the card uses) before drawing / exporting. */
       var BUILTIN_FONTS = ['TharLon', 'YoeYar-One', 'Myanmar Head One', 'Myanmar Taungyi',
         'Myanmar Khway', 'Myanmar Kuttar', 'Myanmar Black', 'Myanmar Nayone', 'Myanmar Angoun'];
+      /* Any stored design (saved template / preset) that names a font no
+         longer offered — e.g. a removed webfont family — falls back
+         to Myanmar Angoun instead of rendering in a wrong/blank face.
+         Custom uploaded fonts (CustomFont…) stay valid. */
+      function sanitizeFont(fam) {
+        if (!fam) return 'Myanmar Angoun';
+        if (BUILTIN_FONTS.indexOf(fam) >= 0) return fam;
+        if (fam.indexOf('CustomFont') === 0) return fam;
+        return 'Myanmar Angoun';
+      }
       function ensureFont(family, weight) {
         if (!document.fonts || !document.fonts.load) return Promise.resolve();
         return document.fonts.load(weight + ' 60px "' + family + '"', 'တရား').catch(function () {});
@@ -925,13 +1129,101 @@
       }
 
       /* ================= drawing ================= */
+      function scrimRGBA(a) {
+        var hex = (S.scrimColor || '#000000').replace('#', '');
+        if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
+        var r = parseInt(hex.slice(0, 2), 16) || 0,
+            g = parseInt(hex.slice(2, 4), 16) || 0,
+            b = parseInt(hex.slice(4, 6), 16) || 0;
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + a + ')';
+      }
+      /* Dark scrim over the background so quote text stays readable on a photo.
+         Modes: full / bottom / top / left / right / vignette. */
+      function drawScrim(W, H) {
+        var mode = S.scrimMode, op = Math.max(0, Math.min(0.95, S.scrimOpacity || 0));
+        if (!mode || mode === 'none' || op <= 0) return;
+        var g;
+        ctx.save();
+        if (mode === 'full') {
+          ctx.fillStyle = scrimRGBA(op);
+          ctx.fillRect(0, 0, W, H);
+        } else if (mode === 'bottom') {
+          g = ctx.createLinearGradient(0, H * 0.25, 0, H);
+          g.addColorStop(0, scrimRGBA(0));
+          g.addColorStop(0.55, scrimRGBA(op * 0.45));
+          g.addColorStop(1, scrimRGBA(op));
+          ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        } else if (mode === 'top') {
+          g = ctx.createLinearGradient(0, 0, 0, H * 0.75);
+          g.addColorStop(0, scrimRGBA(op));
+          g.addColorStop(0.45, scrimRGBA(op * 0.45));
+          g.addColorStop(1, scrimRGBA(0));
+          ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        } else if (mode === 'left') {
+          g = ctx.createLinearGradient(0, 0, W * 0.78, 0);
+          g.addColorStop(0, scrimRGBA(op));
+          g.addColorStop(0.5, scrimRGBA(op * 0.5));
+          g.addColorStop(1, scrimRGBA(0));
+          ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        } else if (mode === 'right') {
+          g = ctx.createLinearGradient(W, 0, W * 0.22, 0);
+          g.addColorStop(0, scrimRGBA(op));
+          g.addColorStop(0.5, scrimRGBA(op * 0.5));
+          g.addColorStop(1, scrimRGBA(0));
+          ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        } else if (mode === 'vignette') {
+          var cx = W * 0.5, cy = H * 0.46;
+          var r0 = Math.min(W, H) * 0.34, r1 = Math.max(W, H) * 0.78;
+          g = ctx.createRadialGradient(cx, cy, r0, cx, cy, r1);
+          g.addColorStop(0, scrimRGBA(0));
+          g.addColorStop(0.62, scrimRGBA(op * 0.35));
+          g.addColorStop(1, scrimRGBA(op));
+          ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+        }
+        ctx.restore();
+      }
+      /* Semi-transparent dark rounded panel behind the quote block only. */
+      function drawTextPanel(lay, W, H, k) {
+        if (!S.textPanel || !lay) return;
+        var padX = 30 * k, padY = 24 * k;
+        var x = Math.max(8 * k, lay.x - padX);
+        var y = Math.max(8 * k, lay.y - padY);
+        var w = Math.min(W - 8 * k, lay.x + lay.w + padX) - x;
+        var h = Math.min(H - 8 * k, lay.y + lay.h + padY * 0.6) - y;
+        var r = 26 * k;
+        ctx.save();
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(x, y, w, h, r);
+        else ctx.rect(x, y, w, h);
+        ctx.fillStyle = 'rgba(12,7,3,' + (S.textPanelOpacity || 0.55) + ')';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(232,196,92,0.28)';
+        ctx.lineWidth = 1.4 * k;
+        ctx.stroke();
+        ctx.restore();
+      }
+
       function drawBackground(W, H, quoteLay, pg) {
-        if (bgImage) {
-          var s = Math.max(W / bgImage.naturalWidth, H / bgImage.naturalHeight);
-          var dw = bgImage.naturalWidth * s, dh = bgImage.naturalHeight * s;
+        /* a built-in scene (layout templates) replaces the uploaded
+           background photo, and is drawn through the same cover-fit path
+           so scrims / blur still apply to it */
+        var bgSrc = (S.scene && sceneImgs[S.scene]) ? sceneImgs[S.scene] : bgImage;
+        if (bgSrc) {
+          var s = Math.max(W / bgSrc.naturalWidth, H / bgSrc.naturalHeight);
+          var dw = bgSrc.naturalWidth * s, dh = bgSrc.naturalHeight * s;
           ctx.fillStyle = '#14100c';
           ctx.fillRect(0, 0, W, H);
-          ctx.drawImage(bgImage, (W - dw) / 2, (H - dh) / 2, dw, dh);
+          var blurPx = (S.scrimBlur || 0) * (W / 1080);
+          if (blurPx > 0.5) {
+            /* draw slightly oversized so the blurred edges never show through */
+            var m = blurPx * 2.5;
+            try { ctx.filter = 'blur(' + blurPx + 'px)'; } catch (e) {}
+            ctx.drawImage(bgSrc, (W - dw) / 2 - m, (H - dh) / 2 - m, dw + m * 2, dh + m * 2);
+            try { ctx.filter = 'none'; } catch (e) {}
+          } else {
+            ctx.drawImage(bgSrc, (W - dw) / 2, (H - dh) / 2, dw, dh);
+          }
+          drawScrim(W, H);
           return;
         }
         var g;
@@ -1006,16 +1298,50 @@
             ctx.restore();
             break;
           }
+          case 'lamp': {
+            /* deep warm brown with a soft amber glow at the centre —
+               the ဆီမီးအလင်း (Oil Lamp Glow) preset background */
+            g = ctx.createRadialGradient(W * 0.5, H * 0.46, 10, W * 0.5, H * 0.46, W * 0.9);
+            g.addColorStop(0, '#4a2a0e'); g.addColorStop(0.45, '#241305'); g.addColorStop(1, '#0c0401');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            g = ctx.createRadialGradient(W * 0.5, H * 0.46, 10, W * 0.5, H * 0.46, W * 0.55);
+            g.addColorStop(0, 'rgba(255,176,84,0.30)'); g.addColorStop(1, 'rgba(255,176,84,0)');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            break;
+          }
           case 'plain':
             g = ctx.createLinearGradient(0, 0, 0, H);
             g.addColorStop(0, '#232326'); g.addColorStop(1, '#131315');
             ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
             break;
+          case 'navyWave': {
+            /* deep navy gradient with a black wave sweeping across the
+               bottom of the card, as in sample 7 */
+            g = ctx.createLinearGradient(0, 0, 0, H);
+            g.addColorStop(0, '#1b2f7d'); g.addColorStop(1, '#0a1233');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(0, H * 0.88);
+            ctx.bezierCurveTo(W * 0.28, H * 0.60, W * 0.52, H * 0.98, W * 0.78, H * 0.74);
+            ctx.bezierCurveTo(W * 0.90, H * 0.63, W * 0.96, H * 0.62, W, H * 0.60);
+            ctx.lineTo(W, H);
+            ctx.lineTo(0, H);
+            ctx.closePath();
+            ctx.fillStyle = '#04060d';
+            ctx.fill();
+            ctx.restore();
+            break;
+          }
           default: /* custom */
             g = ctx.createLinearGradient(0, 0, 0, H);
             g.addColorStop(0, S.grad1); g.addColorStop(1, S.grad2);
             ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
         }
+        /* with no photo loaded, a vignette template still gets its darkened
+           edges over the fallback gradient; other scrims only sit on photos so
+           the fallback gradient keeps its own colours */
+        if (S.scrimMode === 'vignette') drawScrim(W, H);
       }
 
       function drawFrame(W, H, k) {
@@ -1046,6 +1372,18 @@
         ctx.save();
         ctx.textBaseline = 'alphabetic';
         ctx.lineJoin = 'round';
+        /* gold gradient fills, spanning the whole quote block vertically */
+        var goldGrad = null, goldGradHl = null;
+        if (S.goldText) {
+          goldGrad = ctx.createLinearGradient(0, lay.y, 0, lay.y + lay.h);
+          goldGrad.addColorStop(0, '#fff3b0');
+          goldGrad.addColorStop(0.5, '#f5c542');
+          goldGrad.addColorStop(1, '#b8860b');
+          goldGradHl = ctx.createLinearGradient(0, lay.y, 0, lay.y + lay.h);
+          goldGradHl.addColorStop(0, '#fffbe0');
+          goldGradHl.addColorStop(0.5, '#ffe066');
+          goldGradHl.addColorStop(1, '#e8a812');
+        }
         for (var i = 0; i < lay.lines.length; i++) {
           var ln = lay.lines[i];
           var x = lay.x;
@@ -1053,7 +1391,12 @@
           else if (S.align === 'right') x = lay.x + (lay.w - ln.w);
           var y = lay.y + lay.fs + i * lay.lh;
           var base = ln.src < S.accentLines ? S.accent : S.color;
-          if (S.shadow) {
+          if (S.goldText) {
+            /* soft golden glow replaces the dark drop shadow in gold mode */
+            ctx.shadowColor = 'rgba(255,196,64,0.8)';
+            ctx.shadowBlur = lay.fs / 4;
+            ctx.shadowOffsetY = 0;
+          } else if (S.shadow) {
             ctx.shadowColor = 'rgba(0,0,0,0.6)';
             ctx.shadowBlur = lay.fs / 5;
             ctx.shadowOffsetY = lay.fs / 18;
@@ -1064,7 +1407,7 @@
           for (var r = 0; r < runs.length; r++) {
             var run = runs[r];
             if (!run.t) continue;
-            ctx.fillStyle = run.hl ? S.accent : base;
+            ctx.fillStyle = S.goldText ? (run.hl ? goldGradHl : goldGrad) : (run.hl ? S.accent : base);
             if (S.stroke) {
               ctx.strokeStyle = S.strokeColor;
               ctx.lineWidth = Math.max(1.5, lay.fs / 13);
@@ -1076,6 +1419,37 @@
         }
         ctx.restore();
         boxes.quote = { x: lay.x, y: lay.y, w: lay.w, h: lay.h };
+      }
+
+      /* Ornament band strip down the left edge, over the background and
+         under the photo / text (layout templates L2/L3, or the manual
+         background checkbox). */
+      function drawBand(W, H) {
+        if (!S.band || !bandImg) return;
+        ctx.drawImage(bandImg, 0, 0, W * 0.05, H);
+      }
+
+      function elGeom(el, W, H) {
+        var img = elImgs[el.type];
+        if (!img) return null;
+        var w = el.w * W;
+        var h = w * (img.naturalHeight / img.naturalWidth);
+        return { x: el.x * W, y: el.y * H, w: w, h: h };
+      }
+      /* Dhamma elements: above background / scene / band and the photo,
+         below the quote text, name and logo. Hit boxes are recorded so the
+         preview canvas can drag / select them. */
+      function drawElements(W, H) {
+        boxes.elements = [];
+        (S.elements || []).forEach(function (el, i) {
+          var g = elGeom(el, W, H);
+          if (!g) return;
+          ctx.save();
+          ctx.globalAlpha = el.opacity == null ? 1 : el.opacity;
+          ctx.drawImage(elImgs[el.type], g.x, g.y, g.w, g.h);
+          ctx.restore();
+          boxes.elements[i] = g;
+        });
       }
 
       /* Paint the full card onto any 2d context at any size, optionally with a
@@ -1090,10 +1464,13 @@
         var lay = layoutQuote(W, H, k);
         var pg = photoGeom(W, H);
         drawBackground(W, H, lay, pg);
+        drawBand(W, H);
         if (pg && photoCanvas) {
           ctx.drawImage(photoCanvas, pg.x, pg.y, pg.w, pg.h);
           boxes.photo = pg;
         }
+        drawElements(W, H);
+        drawTextPanel(lay, W, H, k);
         drawFrame(W, H, k);
         drawQuote(lay);
         /* name */
@@ -1129,6 +1506,17 @@
         if (cv.width !== W || cv.height !== H) { cv.width = W; cv.height = H; }
         wrap.style.setProperty('--ar', String(W / H));
         boxes = paint(ctx, W, H, null);
+        /* selection outline for the chosen element — preview only, it is
+           drawn after paint() so exports never include it */
+        if (selEl >= 0 && boxes.elements && boxes.elements[selEl]) {
+          var eb = boxes.elements[selEl];
+          ctx.save();
+          ctx.strokeStyle = '#ffd94d';
+          ctx.lineWidth = Math.max(2, W * 0.0022);
+          ctx.setLineDash([W * 0.008, W * 0.006]);
+          ctx.strokeRect(eb.x - 5, eb.y - 5, eb.w + 10, eb.h + 10);
+          ctx.restore();
+        }
       }
 
       function renderOffscreen(W, H, quote) {
@@ -1219,7 +1607,7 @@
       }
 
       function attemptRemoveBg() {
-        if (!photoFileBlob) return;
+        if (!photoFileBlob || !bgRemoveOn) return;
         var btn = $('#removeBgBtn');
         btn.disabled = true;
         setStatus('နောက်ခံ ဖယ်ရှားနေပါသည်… ပထမအကြိမ်တွင် model ဖိုင် ဒေါင်းလုဒ်လုပ်ရသဖြင့် အချိန်အနည်းငယ် ကြာနိုင်ပါသည်။');
@@ -1238,11 +1626,11 @@
             photoCut = img;
             processPhoto();
             render();
-            btn.disabled = false;
+            btn.disabled = !bgRemoveOn;
             setStatus('နောက်ခံ ဖယ်ရှားပြီးပါပြီ။ ပုံကို ကတ်ပေါ်တွင် ဆွဲရွှေ့၍ နေရာချနိုင်ပါသည်။', 'ok');
           })
           .catch(function () {
-            btn.disabled = false;
+            btn.disabled = !bgRemoveOn;
             setStatus('အလိုအလျောက် နောက်ခံဖယ်ရှားမှု မအောင်မြင်ပါ (အင်တာနက် သို့မဟုတ် browser ကြောင့် ဖြစ်နိုင်သည်)။ အနားပျော့ blend ပုံစံဖြင့် ပုံကို ဆက်သုံးနိုင်ပါသည် — "အနားပျော့မှု" slider ကို တိုး၍ ညှိကြည့်ပါ။', 'warn');
           });
       }
@@ -1257,18 +1645,39 @@
         };
       }
       function hitTest(p) {
-        var order = ['logo', 'name', 'quote', 'photo'];
+        /* render order topmost-first: logo / name / quote, then elements
+           (last added = topmost), then the photo */
+        var order = ['logo', 'name', 'quote'];
         for (var i = 0; i < order.length; i++) {
           var b = boxes[order[i]];
           if (b && p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h) return order[i];
         }
+        if (boxes.elements) {
+          for (var j = boxes.elements.length - 1; j >= 0; j--) {
+            var eb = boxes.elements[j];
+            if (eb && p.x >= eb.x && p.x <= eb.x + eb.w && p.y >= eb.y && p.y <= eb.y + eb.h) return 'element' + j;
+          }
+        }
+        var pb = boxes.photo;
+        if (pb && p.x >= pb.x && p.x <= pb.x + pb.w && p.y >= pb.y && p.y <= pb.y + pb.h) return 'photo';
         return null;
       }
       cv.addEventListener('pointerdown', function (e) {
         var p = toCanvas(e);
         var hit = hitTest(p);
-        if (!hit) return;
-        drag = { el: hit, dx: p.x - boxes[hit].x, dy: p.y - boxes[hit].y };
+        if (!hit) {
+          /* clicking empty canvas deselects any chosen element */
+          if (selEl >= 0) { selEl = -1; syncElPanel(); render(); }
+          return;
+        }
+        if (hit.indexOf('element') === 0) {
+          var idx = parseInt(hit.slice(7), 10);
+          selEl = idx;
+          syncElPanel();
+          drag = { el: 'element', idx: idx, dx: p.x - boxes.elements[idx].x, dy: p.y - boxes.elements[idx].y };
+        } else {
+          drag = { el: hit, dx: p.x - boxes[hit].x, dy: p.y - boxes[hit].y };
+        }
         try { cv.setPointerCapture(e.pointerId); } catch (err) {}
         e.preventDefault();
       });
@@ -1284,6 +1693,10 @@
           S.nameCustom = { x: nx, y: ny };
         } else if (drag.el === 'photo') S.photoCustom = { x: nx, y: ny };
         else if (drag.el === 'logo') S.logoPos = { x: nx, y: ny };
+        else if (drag.el === 'element') {
+          var el = S.elements[drag.idx];
+          if (el) { el.x = nx; el.y = ny; }
+        }
         render();
       });
       function endDrag() { drag = null; }
@@ -1331,6 +1744,7 @@
       bindToggle('#shadowBtn', 'shadow');
       bindToggle('#frameBtn', 'frame');
       bindToggle('#autoFitBtn', 'autoFit');
+      bindToggle('#goldTextBtn', 'goldText');
 
       $('#alignSeg').addEventListener('click', function (e) {
         var b = e.target.closest('button');
@@ -1367,6 +1781,7 @@
       /* background */
       $('#bgSel').addEventListener('change', function (e) {
         S.bg = e.target.value;
+        S.scene = null; /* picking a plain background style clears any scene */
         var grade = THEME_GRADE[S.bg];
         if (grade) {
           S.brightness = grade.b; S.warmth = grade.w;
@@ -1379,6 +1794,7 @@
       function customGrad(which) {
         return function (e) {
           S[which] = e.target.value;
+          S.scene = null;
           if (S.bg !== 'custom') { S.bg = 'custom'; $('#bgSel').value = 'custom'; }
           render();
         };
@@ -1390,6 +1806,7 @@
         if (!f) return;
         loadImg(URL.createObjectURL(f)).then(function (img) {
           bgImage = img;
+          S.scene = null; /* an uploaded photo replaces any scene */
           $('#bgImgName').textContent = f.name;
           $('#bgImgClear').disabled = false;
           render();
@@ -1400,6 +1817,18 @@
         $('#bgImgName').textContent = '';
         $('#bgImgFile').value = '';
         this.disabled = true;
+        render();
+      });
+
+      /* background-image treatment: scrim direction / strength / blur / panel */
+      $('#scrimSel').addEventListener('change', function (e) { S.scrimMode = e.target.value; render(); });
+      bindRange('#scrimOpacity', '#scrimOpacityVal', function (v) { return num(v) + '%'; }, function (v) { S.scrimOpacity = v / 100; });
+      bindRange('#scrimBlur', '#scrimBlurVal', num, function (v) { S.scrimBlur = v; });
+      bindToggle('#textPanelBtn', 'textPanel');
+      /* ornament band down the left edge — manual toggle for any design */
+      var bandToggleEl = $('#bandToggle');
+      if (bandToggleEl) bandToggleEl.addEventListener('change', function () {
+        S.band = bandToggleEl.checked;
         render();
       });
 
@@ -1419,6 +1848,24 @@
       bindRange('#nameSize', '#nameSizeVal', num, function (v) { S.nameSize = v; });
 
       /* photo */
+      var bgRemoveEl = $('#bgRemoveToggle');
+      bgRemoveEl.checked = bgRemoveOn;
+      bgRemoveEl.addEventListener('change', function () {
+        bgRemoveOn = bgRemoveEl.checked;
+        try { localStorage.setItem(BG_REMOVE_KEY, bgRemoveOn ? '1' : '0'); } catch (e) {}
+        $('#removeBgBtn').disabled = !bgRemoveOn || !photoFileBlob;
+        /* only uploaded photos are affected; library photos are already
+           cutouts and apply directly regardless of this toggle */
+        if (!photoFileBlob || !photoOrig) return;
+        if (bgRemoveOn) {
+          attemptRemoveBg();
+        } else if (photoCut) {
+          photoCut = null;
+          processPhoto();
+          render();
+          setStatus('နောက်ခံ မဖယ်ရှားဘဲ မူရင်းပုံကို သုံးထားပါသည်။');
+        }
+      });
       $('#photoFile').addEventListener('change', function (e) {
         var f = e.target.files && e.target.files[0];
         if (!f) return;
@@ -1430,11 +1877,11 @@
         loadImg(URL.createObjectURL(f)).then(function (img) {
           photoOrig = img;
           processPhoto();
-          $('#removeBgBtn').disabled = false;
+          $('#removeBgBtn').disabled = !bgRemoveOn;
           $('#photoRemove').disabled = false;
           $('#savePhotoLib').disabled = false;
           render();
-          attemptRemoveBg();
+          if (bgRemoveOn) attemptRemoveBg();
         });
       });
       $('#removeBgBtn').addEventListener('click', attemptRemoveBg);
@@ -1520,6 +1967,53 @@
       }
       $('#dlPng').addEventListener('click', function () { download('png'); });
       $('#dlJpg').addEventListener('click', function () { download('jpg'); });
+
+      /* share the current card as a PNG file via the Web Share API */
+      $('#shareBtn').addEventListener('click', function () {
+        var btn = this;
+        btn.disabled = true;
+        setStatusEl('#exportStatus', 'Share လုပ်ရန် ပြင်ဆင်နေပါသည်…');
+        ensureSelectedFonts().then(function () {
+          render();
+          return new Promise(function (res) { cv.toBlob(res, 'image/png'); });
+        }).then(async function (blob) {
+          if (!blob) {
+            setStatusEl('#exportStatus', 'ပုံ ထုတ်၍ မရပါ။', 'warn');
+            btn.disabled = false;
+            return;
+          }
+          var file = null;
+          try { file = new File([blob], 'dhamma-quote-card.png', { type: 'image/png' }); } catch (e) { file = null; }
+          if (file && navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({ files: [file], title: 'Dhamma Quote Card' });
+              setStatusEl('#exportStatus', 'Share လုပ်ပြီးပါပြီ။', 'ok');
+            } catch (e) {
+              if (e && e.name === 'AbortError') setStatusEl('#exportStatus', 'Share မလုပ်တော့ပါ။');
+              else setStatusEl('#exportStatus', 'Share လုပ်၍ မရပါ။', 'warn');
+            }
+          } else if (navigator.share) {
+            try {
+              await navigator.share({ title: 'Dhamma Quote Card', text: (S.quote || '').replace(/\*/g, '') });
+              setStatusEl('#exportStatus', 'စာသားကို Share လုပ်ပြီးပါပြီ။ (ဤ browser တွင် ပုံ file share မရနိုင်ပါ။)', 'ok');
+            } catch (e) {
+              if (e && e.name === 'AbortError') {
+                setStatusEl('#exportStatus', 'Share မလုပ်တော့ပါ။');
+              } else {
+                downloadBlob(blob, 'dhamma-quote-card.png');
+                setStatusEl('#exportStatus', 'Share မရနိုင်သဖြင့် PNG ကို ဒေါင်းလုဒ် လုပ်ပေးထားပါသည်။', 'ok');
+              }
+            }
+          } else {
+            downloadBlob(blob, 'dhamma-quote-card.png');
+            setStatusEl('#exportStatus', 'ဤ browser တွင် Share မရနိုင်သဖြင့် PNG ကို ဒေါင်းလုဒ် လုပ်ပေးထားပါသည်။', 'ok');
+          }
+          btn.disabled = false;
+        }).catch(function () {
+          setStatusEl('#exportStatus', 'Share လုပ်၍ မရပါ၊ ပြန်စမ်းကြည့်ပါ။', 'warn');
+          btn.disabled = false;
+        });
+      });
       $('#resetPos').addEventListener('click', function () {
         S.quotePos = { x: 0.055, y: 0.07 };
         S.namePos = $('#namePosSel').value;
@@ -1551,10 +2045,237 @@
           namePos: 'bottom-center', nameColor: '#ffffff', nameSize: 32 },
         darkHalo: { bg: 'charcoal', frame: false, color: '#ffffff', accent: '#e9c979', accentLines: 0,
           align: 'center', quotePos: { x: 0.10, y: 0.55 }, photoSide: 'right', photoCenterTop: true, photoSize: 50,
-          namePos: 'bottom-center', nameColor: '#e9c979', nameSize: 34 }
+          namePos: 'bottom-center', nameColor: '#e9c979', nameSize: 34 },
+        /* ---- 10 more classic design presets: full design + colours + fonts +
+           name styling in one click, like the four above. They are design
+           presets, not scrim presets: scrim/textPanel are explicitly off.
+           Light-background designs (dawnSky, cloudyWhite, parchment,
+           pagodaGold) use dark text + dark name colours and no dark stroke,
+           so the quote stays readable on the light ground. ---- */
+        oilLamp: { bg: 'lamp', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#170a02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        dawnSky: { bg: 'custom', grad1: '#f9b26b', grad2: '#dd6f92', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#4a1408', accent: '#8a5a00', accentLines: 2,
+          bold: true, stroke: false, strokeColor: '#4a1408', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-right', nameColor: '#4a1408', nameSize: 34 },
+        oceanDeep: { bg: 'custom', grad1: '#0f5e63', grad2: '#041e3e', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#aee3d8', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#04222b', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#d9f2ea', nameSize: 34 },
+        forestShade: { bg: 'custom', grad1: '#0e4630', grad2: '#02120a', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#02120a', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        roseNight: { bg: 'custom', grad1: '#8e1f3c', grad2: '#2a0714', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#f9c6d3', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#2a0714', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-right', nameColor: '#f9c6d3', nameSize: 34 },
+        blackGold: { bg: 'custom', grad1: '#141414', grad2: '#000000', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 68, color: '#f5c542', accent: '#ffe066', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#2a1800', shadow: true, goldText: true, align: 'left', autoFit: true,
+          quotePos: { x: 0.06, y: 0.08 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#f5c542', nameSize: 36 },
+        cloudyWhite: { bg: 'custom', grad1: '#fdf8ec', grad2: '#f1e3c2', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#4d1206', accent: '#a06a1c', accentLines: 2,
+          bold: true, stroke: false, strokeColor: '#4d1206', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-right', nameColor: '#4d1206', nameSize: 34 },
+        nightSky: { bg: 'custom', grad1: '#2e2a72', grad2: '#150a33', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#d9c9f2', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#0d0724', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#e2d9f7', nameSize: 34 },
+        parchment: { bg: 'custom', grad1: '#f2e3bc', grad2: '#dcbd82', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#3d2410', accent: '#8a5a1e', accentLines: 2,
+          bold: true, stroke: false, strokeColor: '#3d2410', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#3d2410', nameSize: 34 },
+        pagodaGold: { bg: 'temple', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#3d0e02', accent: '#5f3a00', accentLines: 2,
+          bold: true, stroke: false, strokeColor: '#3d0e02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.05, y: 0.06 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        /* ---- 7 sample-card presets (from AChan's reference cards): full design
+           specs like the classics above — goldText off, no scrim, panel off
+           except moonNightPanel, and none of them touches the logo.
+           accentLines is 0 throughout: the accent colour is the *…* highlight
+           colour, as in the samples where only marked words/lines stand out. ---- */
+        lampGoldFrame: { bg: 'lamp', frame: true,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#ffffff', accent: '#ffcf3d', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#170a02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.40, y: 0.06 }, photoSide: 'left', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#2fd8d8', nameSize: 34 },
+        redBrownGold: { bg: 'custom', grad1: '#6e2a1a', grad2: '#2a0d05', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#f7b733', accent: '#ffffff', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#1d0803', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffd94d', nameSize: 34 },
+        redBrownList: { bg: 'custom', grad1: '#5c2314', grad2: '#0a0301', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'TharLon', fontSize: 66, color: '#ffffff', accent: '#ffb52e', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#0a0301', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffffff', nameSize: 34 },
+        allGoldText: { bg: 'custom', grad1: '#6a2c17', grad2: '#1c0803', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#ffb52e', accent: '#ffffff', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#1c0803', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffd94d', nameSize: 34 },
+        smokyBrown: { bg: 'custom', grad1: '#38300f', grad2: '#0b0803', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#ffffff', accent: '#ffcf3d', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#0b0803', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffd94d', nameSize: 34 },
+        moonNightPanel: { bg: 'custom', grad1: '#131a3a', grad2: '#05060f', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: true, textPanelOpacity: 0.85,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd21f', accentLines: 0,
+          bold: false, stroke: false, strokeColor: '#05060f', shadow: true, goldText: false, align: 'center', autoFit: true,
+          quotePos: { x: 0.08, y: 0.45 }, photoSide: 'right', photoCenterTop: true, photoSize: 55,
+          namePos: 'bottom-center', nameFont: 'Myanmar Angoun', nameColor: '#ffd21f', nameSize: 34 },
+        navyWave: { bg: 'custom', grad1: '#1b2f7d', grad2: '#0a1233', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#b7e04a', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#0a1233', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.40, y: 0.06 }, photoSide: 'left', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-right', nameFont: 'Myanmar Angoun', nameColor: '#b7e04a', nameSize: 34 },
+        /* ---- Text-on-Image templates: scrim/blur/panel keep the quote readable
+           over an uploaded background photo; without a photo each falls back to
+           its own dark gradient (bg + grad1/grad2 below). ---- */
+        fullDarkScrim: { bg: 'custom', grad1: '#241610', grad2: '#0d0603', frame: true,
+          scrimMode: 'full', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#140a02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        bottomScrim: { bg: 'custom', grad1: '#5a2113', grad2: '#200802', frame: false,
+          scrimMode: 'bottom', scrimOpacity: 0.85, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#140a02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.48 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-right', nameColor: '#ffd94d', nameSize: 34 },
+        leftScrim: { bg: 'custom', grad1: '#2e3138', grad2: '#0e0f12', frame: false,
+          scrimMode: 'left', scrimOpacity: 0.82, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#0a0a0a', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.05, y: 0.09 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-left', nameColor: '#ffe9a8', nameSize: 34 },
+        rightScrim: { bg: 'custom', grad1: '#2e3138', grad2: '#0e0f12', frame: false,
+          scrimMode: 'right', scrimOpacity: 0.82, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#0a0a0a', shadow: true, goldText: false, align: 'right', autoFit: true,
+          quotePos: { x: 0.46, y: 0.09 }, photoSide: 'left', photoCenterTop: false,
+          namePos: 'bottom-right', nameColor: '#ffe9a8', nameSize: 34 },
+        topScrim: { bg: 'custom', grad1: '#3d1450', grad2: '#170722', frame: false,
+          scrimMode: 'top', scrimOpacity: 0.80, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#160722', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.05 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        vignetteFocus: { bg: 'charcoal', frame: true,
+          scrimMode: 'vignette', scrimOpacity: 0.72, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#0a0a0a', shadow: true, goldText: false, align: 'center', autoFit: true,
+          quotePos: { x: 0.16, y: 0.30 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        blurDark: { bg: 'custom', grad1: '#2b3644', grad2: '#0d1218', frame: false,
+          scrimMode: 'full', scrimOpacity: 0.45, scrimColor: '#000000', scrimBlur: 14, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 76, color: '#ffffff', accent: '#ffe9a8', accentLines: 1,
+          bold: true, stroke: true, strokeColor: '#0b0f14', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.06, y: 0.09 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 },
+        goldFrameNoir: { bg: 'custom', grad1: '#171310', grad2: '#050505', frame: true,
+          scrimMode: 'full', scrimOpacity: 0.70, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 68, color: '#f5c542', accent: '#ffe066', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#2a1800', shadow: true, goldText: true, align: 'left', autoFit: true,
+          quotePos: { x: 0.06, y: 0.08 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#f5c542', nameSize: 36 },
+        midnightBlue: { bg: 'custom', grad1: '#14386e', grad2: '#050f22', frame: false,
+          scrimMode: 'full', scrimOpacity: 0.62, scrimColor: '#081c40', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#f2d492', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#04122b', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#f2d492', nameSize: 34 },
+        textPanel: { bg: 'custom', grad1: '#3a2415', grad2: '#170c04', frame: false,
+          scrimMode: 'none', scrimOpacity: 0, scrimColor: '#000000', scrimBlur: 0, textPanel: true, textPanelOpacity: 0.55,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd94d', accentLines: 2,
+          bold: true, stroke: true, strokeColor: '#140a02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.07, y: 0.09 }, photoSide: 'right', photoCenterTop: false,
+          namePos: 'bottom-center', nameColor: '#ffe9a8', nameSize: 34 }
+      };
+      /* ---- Image Layout Templates: full layouts recreating AChan's sample
+         cards, including the real background scenes, the left ornament
+         band, the navy wave, and (L1) a pre-placed lotus element. Each one
+         fully specifies scene / band / elements; applyDesign clears any of
+         those the layout does not name. None of them touches the logo. ---- */
+      var LAYOUTS = {
+        layoutLotus: { bg: 'custom', grad1: '#6e2a1a', grad2: '#2a0d05', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#f7b733', accent: '#ffffff', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#1d0803', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffd94d', nameSize: 34,
+          scene: null, band: false,
+          elements: [{ type: 'lotus', x: 0.02, y: 0.70, w: 0.34, opacity: 1 }] },
+        layoutBandList: { bg: 'custom', grad1: '#5c2314', grad2: '#0a0301', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'TharLon', fontSize: 66, color: '#ffffff', accent: '#ffb52e', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#0a0301', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.08, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffffff', nameSize: 34,
+          scene: null, band: true, elements: [] },
+        layoutBandGold: { bg: 'custom', grad1: '#6a2c17', grad2: '#1c0803', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#ffb52e', accent: '#ffffff', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#1c0803', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.08, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffd94d', nameSize: 34,
+          scene: null, band: true, elements: [] },
+        layoutLampScene: { bg: 'custom', grad1: '#4a2a0e', grad2: '#0c0401', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Black', fontSize: 66, color: '#ffffff', accent: '#ffcf3d', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#170a02', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.055, y: 0.07 }, photoSide: 'right', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-left', nameFont: 'Myanmar Angoun', nameColor: '#ffd94d', nameSize: 34,
+          scene: 'lamp', band: false, elements: [] },
+        layoutNightScene: { bg: 'custom', grad1: '#131a3a', grad2: '#05060f', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: true, textPanelOpacity: 0.85,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#ffd21f', accentLines: 0,
+          bold: false, stroke: false, strokeColor: '#05060f', shadow: true, goldText: false, align: 'center', autoFit: true,
+          quotePos: { x: 0.08, y: 0.45 }, photoSide: 'right', photoCenterTop: true, photoSize: 55,
+          namePos: 'bottom-center', nameFont: 'Myanmar Angoun', nameColor: '#ffd21f', nameSize: 34,
+          scene: 'night', band: false, elements: [] },
+        layoutNavyWave: { bg: 'navyWave', frame: false,
+          scrimMode: 'none', scrimOpacity: 0.55, scrimColor: '#000000', scrimBlur: 0, textPanel: false,
+          font: 'Myanmar Angoun', fontSize: 66, color: '#ffffff', accent: '#b7e04a', accentLines: 0,
+          bold: true, stroke: true, strokeColor: '#0a1233', shadow: true, goldText: false, align: 'left', autoFit: true,
+          quotePos: { x: 0.40, y: 0.06 }, photoSide: 'left', photoCenterTop: false, photoSize: 80,
+          namePos: 'bottom-right', nameFont: 'Myanmar Angoun', nameColor: '#b7e04a', nameSize: 34,
+          scene: null, band: false, elements: [] }
       };
       var DESIGN_KEYS = ['bg', 'grad1', 'grad2', 'frame', 'font', 'fontSize', 'color', 'accent',
-        'accentLines', 'bold', 'stroke', 'strokeColor', 'shadow', 'align', 'lineSpace', 'autoFit',
+        'accentLines', 'bold', 'stroke', 'strokeColor', 'shadow', 'goldText', 'align', 'lineSpace', 'autoFit',
+        'scrimMode', 'scrimOpacity', 'scrimColor', 'scrimBlur', 'textPanel', 'textPanelOpacity',
         'namePos', 'nameFont', 'nameColor', 'nameSize', 'photoSide', 'photoSize', 'feather'];
       function captureDesign() {
         var d = {};
@@ -1562,6 +2283,13 @@
         d.quotePos = { x: S.quotePos.x, y: S.quotePos.y };
         d.photoCenterTop = !!S.photoCenterTop;
         if (S.namePos === 'custom') d.namePos = 'bottom-center';
+        /* scene / band / elements are part of the design too, so a saved
+           template restores exactly what was on the card */
+        d.scene = S.scene || null;
+        d.band = !!S.band;
+        d.elements = (S.elements || []).map(function (el) {
+          return { type: el.type, x: el.x, y: el.y, w: el.w, opacity: el.opacity == null ? 1 : el.opacity };
+        });
         return d;
       }
       function placeLogoCorner(corner) {
@@ -1589,11 +2317,22 @@
         $('#shadowBtn').setAttribute('aria-pressed', String(S.shadow));
         $('#frameBtn').setAttribute('aria-pressed', String(S.frame));
         $('#autoFitBtn').setAttribute('aria-pressed', String(S.autoFit));
+        $('#goldTextBtn').setAttribute('aria-pressed', String(!!S.goldText));
         $('#alignSeg').querySelectorAll('button').forEach(function (b) {
           b.setAttribute('aria-pressed', String(b.getAttribute('data-align') === S.align));
         });
         $('#bgSel').value = S.bg;
+        var bandEl = $('#bandToggle');
+        if (bandEl) bandEl.checked = !!S.band;
         $('#grad1').value = S.grad1; $('#grad2').value = S.grad2;
+        var scrimSelEl = $('#scrimSel');
+        if (scrimSelEl) scrimSelEl.value = S.scrimMode || 'none';
+        var soEl = $('#scrimOpacity');
+        if (soEl) { soEl.value = Math.round((S.scrimOpacity || 0) * 100); $('#scrimOpacityVal').textContent = num((S.scrimOpacity || 0) * 100) + '%'; }
+        var sbEl = $('#scrimBlur');
+        if (sbEl) { sbEl.value = S.scrimBlur || 0; $('#scrimBlurVal').textContent = num(S.scrimBlur || 0); }
+        var tpEl = $('#textPanelBtn');
+        if (tpEl) tpEl.setAttribute('aria-pressed', String(!!S.textPanel));
         $('#namePosSel').value = S.namePos;
         $('#nameFontSel').value = S.nameFont;
         $('#nameColor').value = S.nameColor;
@@ -1609,10 +2348,22 @@
       }
       function applyDesign(d) {
         DESIGN_KEYS.forEach(function (k) { if (d[k] !== undefined) S[k] = d[k]; });
+        S.font = sanitizeFont(S.font);
+        S.nameFont = sanitizeFont(S.nameFont);
         if (d.quotePos) S.quotePos = { x: d.quotePos.x, y: d.quotePos.y };
         S.photoCenterTop = !!d.photoCenterTop;
         S.nameCustom = null;
         S.photoCustom = null;
+        /* every design starts clean: a preset that does not name a scene,
+           the band, or elements clears them, so nothing leaks from the
+           previously applied layout template */
+        S.scene = d.scene !== undefined ? (d.scene || null) : null;
+        S.band = !!d.band;
+        S.elements = (d.elements || []).filter(function (el) { return el && EL_DEFS[el.type]; }).map(function (el) {
+          return { type: el.type, x: +el.x || 0, y: +el.y || 0, w: +el.w || 0.3, opacity: el.opacity == null ? 1 : +el.opacity };
+        });
+        selEl = -1;
+        syncElPanel();
         var grade = THEME_GRADE[S.bg];
         if (grade) { S.brightness = grade.b; S.warmth = grade.w; }
         if (photoOrig) processPhoto();
@@ -1621,17 +2372,115 @@
         render();
         ensureSelectedFonts().then(render);
       }
-      $('#presetGrid').addEventListener('click', function (e) {
+      function onPresetClick(e) {
         var b = e.target.closest('button[data-preset]');
         if (!b) return;
         var p = PRESETS[b.getAttribute('data-preset')];
         if (!p) return;
-        /* keep the user's own fonts; presets carry design, colours, positions */
+        /* the classic presets carry design, colours, positions only; the
+           Text-on-Image presets additionally carry font + scrim treatment */
         var d = {};
         Object.keys(p).forEach(function (k) { d[k] = p[k]; });
         applyDesign(d);
         setStatusEl('#tplStatus', 'ပုံစံ «' + b.querySelector('b').textContent + '» ကို အသုံးပြုထားပါသည်။', 'ok');
+      }
+      $('#presetGrid').addEventListener('click', onPresetClick);
+      var toiGridEl = $('#toiGrid');
+      if (toiGridEl) toiGridEl.addEventListener('click', onPresetClick);
+      /* image layout templates: same apply path as presets, with the
+         layout's scene / band / elements carried through */
+      var layoutGridEl = $('#layoutGrid');
+      if (layoutGridEl) layoutGridEl.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-layout]');
+        if (!b) return;
+        var p = LAYOUTS[b.getAttribute('data-layout')];
+        if (!p) return;
+        var d = {};
+        Object.keys(p).forEach(function (k) { d[k] = p[k]; });
+        d.elements = (p.elements || []).map(function (el) {
+          return { type: el.type, x: el.x, y: el.y, w: el.w, opacity: el.opacity };
+        });
+        applyDesign(d);
+        setStatusEl('#tplStatus', 'ပုံစံ «' + b.querySelector('b').textContent + '» ကို အသုံးပြုထားပါသည်။', 'ok');
       });
+
+      /* ================= Dhamma elements =================
+         Elements are independent of the logo system. They live in
+         S.elements, render in paint() (so every export includes them),
+         and are dragged / selected on the canvas like the photo. */
+      function syncElPanel() {
+        var ctl = $('#elControls');
+        var clearBtn = $('#elClearAll');
+        if (clearBtn) clearBtn.disabled = !(S.elements && S.elements.length);
+        if (!ctl) return;
+        var el = (selEl >= 0 && S.elements) ? S.elements[selEl] : null;
+        if (!el) { ctl.style.display = 'none'; return; }
+        ctl.style.display = '';
+        $('#elSelName').textContent = (EL_DEFS[el.type] ? EL_DEFS[el.type].label : el.type) + ' — ရွေးထားသည်';
+        $('#elSize').value = Math.round(el.w * 100);
+        $('#elSizeVal').textContent = num(el.w * 100) + '%';
+        var op = el.opacity == null ? 1 : el.opacity;
+        $('#elOpacity').value = Math.round(op * 100);
+        $('#elOpacityVal').textContent = num(op * 100) + '%';
+      }
+      var elGridEl = $('#elGrid');
+      if (elGridEl) elGridEl.addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-el]');
+        if (!b) return;
+        var type = b.getAttribute('data-el');
+        if (!EL_DEFS[type]) return;
+        if (!S.elements) S.elements = [];
+        if (S.elements.length >= 8) {
+          setStatusEl('#elStatus', 'Element ၈ ခု အထိသာ ထည့်နိုင်ပါသည်။', 'warn');
+          return;
+        }
+        /* lower-left area, staggered as more are added */
+        var n = S.elements.length;
+        var el = {
+          type: type,
+          x: Math.min(0.55, 0.03 + (n % 4) * 0.05),
+          y: Math.min(0.72, 0.58 + (n % 4) * 0.05),
+          w: 0.30, opacity: 1
+        };
+        S.elements.push(el);
+        selEl = S.elements.length - 1;
+        syncElPanel();
+        render();
+        setStatusEl('#elStatus', '«' + EL_DEFS[type].label + '» ကို ကတ်ပေါ် ထည့်ပြီးပါပြီ — ဆွဲရွှေ့၍ နေရာချနိုင်ပါသည်။', 'ok');
+      });
+      var elSizeEl = $('#elSize');
+      if (elSizeEl) elSizeEl.addEventListener('input', function () {
+        var el = S.elements && S.elements[selEl];
+        if (!el) return;
+        el.w = parseFloat(elSizeEl.value) / 100;
+        $('#elSizeVal').textContent = num(el.w * 100) + '%';
+        render();
+      });
+      var elOpacityEl = $('#elOpacity');
+      if (elOpacityEl) elOpacityEl.addEventListener('input', function () {
+        var el = S.elements && S.elements[selEl];
+        if (!el) return;
+        el.opacity = parseFloat(elOpacityEl.value) / 100;
+        $('#elOpacityVal').textContent = num(el.opacity * 100) + '%';
+        render();
+      });
+      var elDeleteEl = $('#elDelete');
+      if (elDeleteEl) elDeleteEl.addEventListener('click', function () {
+        if (!S.elements || selEl < 0 || !S.elements[selEl]) return;
+        S.elements.splice(selEl, 1);
+        selEl = -1;
+        syncElPanel();
+        render();
+      });
+      var elClearEl = $('#elClearAll');
+      if (elClearEl) elClearEl.addEventListener('click', function () {
+        S.elements = [];
+        selEl = -1;
+        syncElPanel();
+        render();
+        setStatusEl('#elStatus', 'Element အားလုံး ဖျက်ပြီးပါပြီ။', 'ok');
+      });
+      syncElPanel();
 
       /* saved templates (this browser only) */
       var TPL_KEY = 'dhamma-quote-templates';
@@ -1862,11 +2711,23 @@
         }
         var allSizes = $('#batchAllSizes').checked;
         var sizeKeys = allSizes ? ALL_SIZE_KEYS : [S.size];
+        var rotateBg = $('#batchRotateBg').checked;
+        var BG_ROTATION = ['maroon', 'purple', 'sunset', 'charcoal', 'temple', 'plain', 'custom'];
+        var origBg = S.bg, origB = S.brightness, origW = S.warmth;
+        var startIdx = BG_ROTATION.indexOf(origBg);
+        if (startIdx < 0) startIdx = 0;
         btn.disabled = true;
         setStatusEl('#batchProgress', 'ထုတ်နေပါသည်…');
         ensureSelectedFonts().then(async function () {
           var files = [];
           for (var i = 0; i < quotes.length; i++) {
+            if (rotateBg) {
+              /* each successive quote takes the next background style, cycling */
+              S.bg = BG_ROTATION[(startIdx + i) % BG_ROTATION.length];
+              var grade = THEME_GRADE[S.bg];
+              if (grade) { S.brightness = grade.b; S.warmth = grade.w; }
+              if (photoOrig) processPhoto();
+            }
             for (var j = 0; j < sizeKeys.length; j++) {
               var dim = SIZES[sizeKeys[j]];
               var c = renderOffscreen(dim[0], dim[1], quotes[i]);
@@ -1879,20 +2740,61 @@
             setStatusEl('#batchProgress', myNum(i + 1) + ' / ' + myNum(quotes.length) + ' ပြီးပါပြီ');
             await new Promise(function (r) { setTimeout(r, 10); });
           }
+          if (rotateBg) {
+            /* restore the editor's own background + photo grade */
+            S.bg = origBg; S.brightness = origB; S.warmth = origW;
+            if (photoOrig) processPhoto();
+            render();
+          }
           await saveFiles(files, 'dhamma-quotes-batch.zip');
           setStatusEl('#batchProgress', 'စာသား ' + myNum(quotes.length) + ' ခု၊ ပုံ ' + myNum(files.length) + ' ပုံ ထုတ်ပြီးပါပြီ။', 'ok');
           btn.disabled = false;
         }).catch(function () {
+          if (rotateBg) {
+            S.bg = origBg; S.brightness = origB; S.warmth = origW;
+            if (photoOrig) processPhoto();
+            render();
+          }
           setStatusEl('#batchProgress', 'ထုတ်၍ မရပါ၊ ပြန်စမ်းကြည့်ပါ။', 'warn');
           btn.disabled = false;
         });
       });
 
+      /* ================= collapsible template sections =================
+         Both template groups start collapsed; the header row toggles them.
+         Each section's open/closed state is remembered in localStorage. */
+      (function () {
+        var COL_KEY = 'dhamma-quote-collapsed-sections';
+        var colSaved = {};
+        try { colSaved = JSON.parse(localStorage.getItem(COL_KEY) || '{}') || {}; } catch (e) { colSaved = {}; }
+        function colStore() { try { localStorage.setItem(COL_KEY, JSON.stringify(colSaved)); } catch (e) {} }
+        function setupCollapse(headSel, bodySel, key) {
+          var head = $(headSel), body = $(bodySel);
+          if (!head || !body) return;
+          var open = colSaved[key] === true; /* default: collapsed */
+          function apply(animate) {
+            if (!animate) body.style.transition = 'none';
+            body.classList.toggle('closed', !open);
+            head.classList.toggle('open', open);
+            head.setAttribute('aria-expanded', open ? 'true' : 'false');
+            if (!animate) requestAnimationFrame(function () { body.style.transition = ''; });
+          }
+          function toggle() { open = !open; colSaved[key] = open; colStore(); apply(true); }
+          head.addEventListener('click', toggle);
+          head.addEventListener('keydown', function (ev) {
+            if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); }
+          });
+          apply(false);
+        }
+        setupCollapse('#tplMainHead', '#tplMainBody', 'templates');
+        setupCollapse('#toiHead', '#toiBody', 'textOnImage');
+      })();
+
       /* first paint + re-render once webfonts arrive so canvas text shapes with the real fonts */
       render();
       if (document.fonts) {
         var loads = [];
-        ['Noto Serif Myanmar', 'Noto Sans Myanmar', 'Padauk'].concat(BUILTIN_FONTS).forEach(function (fam) {
+        BUILTIN_FONTS.forEach(function (fam) {
           loads.push(document.fonts.load('700 60px "' + fam + '"', 'တရား'));
           loads.push(document.fonts.load('400 60px "' + fam + '"', 'တရား'));
         });
@@ -1900,5 +2802,30 @@
         if (document.fonts.ready) document.fonts.ready.then(render).catch(function () {});
       }
     </script>
-  </body>
+  
+<style>
+#dqmInstallBtn{position:fixed;right:14px;bottom:14px;z-index:9999;display:none;align-items:center;gap:8px;
+background:linear-gradient(180deg,#ffd23e,#e8a90c);color:#231300;border:0;border-radius:999px;
+padding:12px 18px;font:700 15px "Noto Sans Myanmar",sans-serif;box-shadow:0 6px 22px rgba(0,0,0,.45);cursor:pointer}
+#dqmInstallBtn:active{transform:scale(.97)}
+</style>
+<button id="dqmInstallBtn" type="button">📲 App အဖြစ် သွင်းရန်</button>
+<script>
+(function(){
+  var btn = document.getElementById("dqmInstallBtn"), deferred = null;
+  var standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  if (standalone) return;
+  window.addEventListener("beforeinstallprompt", function(e){ e.preventDefault(); deferred = e; btn.style.display = "inline-flex"; });
+  var isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (isIOS) btn.style.display = "inline-flex";
+  btn.addEventListener("click", async function(){
+    if (deferred) { deferred.prompt(); var r = await deferred.userChoice; if (r && r.outcome === "accepted") btn.style.display = "none"; deferred = null; }
+    else if (isIOS) { alert("Safari မှာ Share (⬆️) ခလုတ်နှိပ်ပြီး \"Add to Home Screen\" ကို ရွေးပါ။"); }
+    else { alert("Browser menu (⋮) ထဲက \"Install app\" သို့မဟုတ် \"Add to Home screen\" ကို ရွေးပါ။"); }
+  });
+  window.addEventListener("appinstalled", function(){ btn.style.display = "none"; });
+})();
+</script>
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch(function(){});</script>
+</body>
 </html>

@@ -1,6 +1,6 @@
 // Dhamma Quote Card Maker — service worker (network-first: deploys stay fresh,
 // last-seen copy is the offline fallback; cross-origin fonts/libs runtime-cached)
-const CACHE = "dqm-cache-v9";
+const CACHE = "dqm-cache-v10";
 
 self.addEventListener("install", () => self.skipWaiting());
 
